@@ -1,0 +1,19 @@
+<div ng-controller="TreesCtrl" ng-init="find()">
+	<h2>Family Trees</h2>
+
+	<table class="table table-striped table-hover">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Tree Id</th>
+				<th>User Id</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="tree in trees" ng-click="view(tree)">
+				<td>{{tree.name}}</td>
+				<td>{{tree._id}}</td>
+				<td>{{tree.user_id}}</td>
+			</tr>
+		</tbody>
+</div>

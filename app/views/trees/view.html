@@ -1,0 +1,41 @@
+<div ng-controller="TreesCtrl" ng-init="findOne()">
+	<h2>{{tree.name}}</h2>
+	<p>{{tree.description}}</p>
+
+	<button ng-click="showModal()" class="btn btn-default">Add new person</button>
+
+	<table ng-controller="PeopleCtrl" class="table table-striped">
+		<thead>
+			<tr>
+				<th></th>
+				<th>Name</th>
+				<th>Gender</th>
+				<th>Parents</th>
+				<th>Spouses</th>
+				<th>Children</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="person in people">
+				<td>
+					<button ng-click="edit(person._id)" class="btn btn-default">Edit</button>
+				</td>
+				<td>
+					<a name="{{person._id}}"></a>
+					<span title="{{person._id}}">{{person.birth_name}}</span>
+				</td>
+				<td>{{person.gender}}</td>
+				<td>
+					<a ng-repeat="parent in person.parents" href="#{{parent}}">{{parent}}</a>
+					<button ng-click="showModal({ parentFor: person._id })" ng-hide="person.parents.length > 2" class="btn btn-default">Add parent</button>
+				</td>
+				<td>
+					<a ng-repeat="spouse in person.spouses" href="#{{spouse}}">{{spouse}}</a>
+					<button ng-click="showModal({ spouseFor: person._id })" class="btn btn-default">Add spouse</button>
+				</td>
+				<td>
+					<a ng-repeat="child in person.children" href="#{{child}}">{{child}}</a>
+					<button ng-click="showModal({ childFor: person._id })" class="btn btn-default">Add child</button>
+				</td>
+			</tr>
+</div>

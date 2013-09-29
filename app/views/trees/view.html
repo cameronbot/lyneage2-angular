@@ -38,4 +38,11 @@
 					<button ng-click="showModal({ childFor: person._id })" class="btn btn-default">Add child</button>
 				</td>
 			</tr>
+		</tbody>
+	</table>
+
+	<h4>Dictionary _people</h4>
+	<ul>
+		<li ng-repeat="(id, person) in _people">{{id}} {{person.birth_name}}</li>
+	</ul>
 </div>

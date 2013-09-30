@@ -1,0 +1,24 @@
+<form ng-controller="PeopleCtrl" class="form-horizontal" role="form" ng-submit="create()">
+  <div class="form-group">
+    <label for="birthname" class="col-lg-3 control-label">Birthname</label>
+    <div class="col-lg-3">
+      <input ng-model="birthname" type="text" class="form-control" id="birthname" placeholder="Birthname">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="gender" class="col-lg-3 control-label">Gender</label>
+    <div class="col-lg-3">
+      <label class="radio-inline">
+        <input type="radio" name="gender" ng-model="gender" value="m"> Male
+      </label>
+      <label class="radio-inline">
+        <input type="radio" name="gender" ng-model="gender" value="f"> Female
+      </label>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-lg-offset-3 col-lg-3">
+      <button type="submit" class="btn btn-default">Add person</button>
+    </div>
+  </div>
+</form>

@@ -17,6 +17,12 @@ window.app = angular.module('ngl2', ['ngResource','ngCookies','ngl2.controllers'
       .when('/trees/:treeId', {
         templateUrl: 'views/trees/view.html'
       })
+      .when('/trees/:treeId/people/create', {
+        templateUrl: 'views/people/create.html'
+      })
+      .when('/trees/:treeId/people/:personId/create', {
+        templateUrl: 'views/people/create.html'
+      })
       .otherwise({
         redirectTo: '/'
       });
@@ -26,4 +32,4 @@ window.app = angular.module('ngl2', ['ngResource','ngCookies','ngl2.controllers'
   }]);
 
 angular.module('ngl2.controllers', ['ngl2.controllers.main', 'ngl2.controllers.auth', 'ngl2.controllers.trees', 'ngl2.controllers.people']);
-angular.module('ngl2.services', ['ngl2.services.global', 'ngl2.services.auth', 'ngl2.services.trees']);
+angular.module('ngl2.services', ['ngl2.services.global', 'ngl2.services.auth', 'ngl2.services.trees', 'ngl2.services.people']);

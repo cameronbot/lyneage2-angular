@@ -26,48 +26,29 @@ window.angular.module('ngl2.controllers.people', [])
 
 			$scope.update = function () {
 				var params = {
+					_id: $scope.person._id,
 					treeId: $routeParams.treeId,
 					auth_token: authToken,
 					person: $scope.person
 				};
 
-				$http.put('http://localhost:3000/api/v1/trees/' + $routeParams.treeId + '/people/' + $routeParams.personId, params)
-					.success(function(data, status) {
-						console.log('update success ', data, status);
-						$location.path('trees/' + $routeParams.treeId);
-					});
-
-				// var person = People.get({ auth_token: authToken, treeId: $routeParams.treeId, personId: $routeParams.personId }, function() {
-				// 	person.birth_name = $scope.person.birth_name;
-				// 	person.$save(function (response) {
-				// 		console.log('person update resp', response);
-				// 		//Trees.updatePeople()
-				// 		$location.path('trees/' + $routeParams.treeId);
-				// 	});
-				// });
+				new People(params).$update(function (response) {
+					$location.path('trees/' + $routeParams.treeId);
+				});
 			};
 
-			$scope.destroy = function() {
-				$http.delete('http://localhost:3000/api/v1/trees/' + $routeParams.treeId + '/people/' + $routeParams.personId + '?auth_token=' + authToken)
-					.success(function(data, status) {
-						console.log('delete success ', data, status);
-						$location.path('trees/' + $routeParams.treeId);
-					});
-			};
+
 
 			$scope.showForm = function (options) {
-				
 				$location
 					.search('action', options.create)
 					.path('trees/' + options.root.tree_id + '/people/' + options.root._id + '/create');
-				console.log('show form', options);
 			};
 
 			$scope.create = function () {
 				
 				var params = {
-					'treeId': $routeParams.treeId,
-					'auth_token': authToken,
+					treeId: $routeParams.treeId,
 					person: $scope.person
 				};
 
@@ -89,7 +70,17 @@ window.angular.module('ngl2.controllers.people', [])
 				}
 
 				new People(params).$save(function (response) {
-					console.log('person save resp', response);
+					$location.path('trees/' + $routeParams.treeId);
+				});
+			};
+
+			$scope.destroy = function() {
+				var params = {
+					treeId: $routeParams.treeId,
+					_id: $scope.person._id
+				};
+
+				new People(params).$delete(function (response) {
 					$location.path('trees/' + $routeParams.treeId);
 				});
 			};

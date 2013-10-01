@@ -1,27 +1,23 @@
 'use strict';
 
 window.angular.module('ngl2.controllers.trees', [])
-	.controller('TreesCtrl', ['$scope','$routeParams','$location', 'Auth', 'Trees',
-		function($scope, $routeParams, $location, Auth, Trees) {
-
-			var authToken = Auth.token();
+	.controller('TreesCtrl', ['$scope','$routeParams','$location', 'Trees',
+		function($scope, $routeParams, $location, Trees) {
 
 			$scope._people = Trees.getPeople();
 
 			$scope.find = function () {
-				Trees.resource.getData({ 'auth_token': authToken }, function(response) {
+				Trees.resource.getData(function(response) {
 					$scope.trees = response.trees;
 				});
 			};
 
 			$scope.findOne = function () {
-				Trees.resource.get({ 'auth_token': authToken, treeId: $routeParams.treeId }, function (response) {
+				Trees.resource.get({ treeId: $routeParams.treeId }, function (response) {
 					$scope.tree = response.tree;
 					$scope.people = response.people;
 
 					Trees.updatePeople(response.people);
-
-					console.log(Trees.getPeople());
 				});
 			};
 
@@ -43,6 +39,6 @@ window.angular.module('ngl2.controllers.trees', [])
 			};
 
 			$scope.showModal = function(options) {
-				console.log(options);
+				//console.log(options);
 			};
 		}]);

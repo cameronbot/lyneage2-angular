@@ -19,8 +19,8 @@ window.angular.module('ngl2.directives.tree', [])
 					nodeData.children.push(angular.copy(_people[id]));
 				}
 
-				console.log('nodes', nodeData);
-				console.log('elem', elem);
+				//console.log('nodes', nodeData);
+				//console.log('elem', elem);
 				// Create a svg canvas
 	      var vis = d3.select(elem[0]).append('svg:svg')
 	      .attr('width', 400)
@@ -48,9 +48,9 @@ window.angular.module('ngl2.directives.tree', [])
 	      // Create an array with all the links
 	      var links = tree.links(nodes);
 	 
-	      console.log(nodeData);
-	      console.log(nodes);
-	      console.log(links);
+	      // console.log(nodeData);
+	      // console.log(nodes);
+	      // console.log(links);
 	 
 	      var link = vis.selectAll('pathlink')
 	      .data(links)

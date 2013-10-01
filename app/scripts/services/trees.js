@@ -1,17 +1,19 @@
 'use strict';
 
 window.angular.module('ngl2.services.trees', [])
-	.factory('Trees', ['$resource', function($resource) {
+	.factory('Trees', ['$resource', 'Auth', function ($resource, Auth) {
+		var authToken = Auth.token();
+		var currentTree;
 		var people = {};
 
 		return {
-			getPeople: function() {
+			getPeople: function () {
 				return people;
 			},
-			getPerson: function(id) {
+			getPerson: function (id) {
 				return people[id];
 			},
-			updatePeople: function(modified) {
+			updatePeople: function (modified) {
 				for(var i in modified) {
 					var person = modified[i];
 					people[person._id] = person;
@@ -19,12 +21,16 @@ window.angular.module('ngl2.services.trees', [])
 			},
 			resource: $resource('http://localhost:port/api/v1/trees/:treeId',
 			{
-				port: ':3000',
-			  treeId: '@_id'
+				'port': ':3000',
+				'auth_token': authToken,
+			  'treeId': '@_id'
 			},
 			{
 				update: { method: 'PUT'},
-				getData: { method: 'GET', isArray: false }
+				getData: {
+					method: 'GET',
+					isArray: false,
+				}
 			})
 		};
 	}]);

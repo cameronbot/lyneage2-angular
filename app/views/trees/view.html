@@ -18,16 +18,17 @@
 		<tbody>
 			<tr ng-repeat="person in people">
 				<td>
-					<button ng-click="edit(person._id)" class="btn btn-default">Edit</button>
+					<button ng-click="editForm(person)" class="btn btn-default">Edit</button>
 				</td>
 				<td>
 					<a name="{{person._id}}"></a>
 					<span title="{{person._id}}">{{person.birth_name}}</span>
+					<tree person="person">
 				</td>
 				<td>{{person.gender}}</td>
 				<td>
-					<a ng-repeat="parent in person.parent_ids" href="#{{parent}}">{{_people[parent].birth_name}}<br></a><br>
-					<button ng-click="showForm({ create: 'parent', root: person })" ng-hide="person.parent_ids.length > 2" class="btn btn-default">Add parent</button>
+					<a ng-repeat="parent in person.parent_ids" href="#{{parent}}">{{_people[parent].birth_name}}<br></a>
+					<button ng-click="showForm({ create: 'parent', root: person })" ng-hide="person.parent_ids.length >= 2" class="btn btn-default">Add parent</button>
 				</td>
 				<td>
 					<a ng-repeat="spouse in person.spouse_ids" href="#{{spouse}}">{{_people[spouse].birth_name}}<br></a>
@@ -41,46 +42,10 @@
 		</tbody>
 	</table>
 
-	<h4>Dictionary _people</h4>
+<!-- 	<h4>Dictionary _people</h4>
 	<ul>
 		<li ng-repeat="(id, person) in _people">{{id}} {{person.birth_name}}</li>
 	</ul>
-
-		<table ng-controller="PeopleCtrl" class="table table-striped">
-		<thead>
-			<tr>
-				<th></th>
-				<th>Name</th>
-				<th>Gender</th>
-				<th>Parents</th>
-				<th>Spouses</th>
-				<th>Children</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="(id, person) in _people">
-				<td>
-					<button ng-click="edit(person._id)" class="btn btn-default">Edit</button>
-				</td>
-				<td>
-					<a name="{{person._id}}"></a>
-					<span title="{{person._id}}">{{person.birth_name}}</span>
-				</td>
-				<td>{{person.gender}}</td>
-				<td>
-					<a ng-repeat="parent in person.parent_ids" href="#{{parent}}">{{_people[parent].birth_name}}</a><br>
-					<button ng-click="showForm({ create: 'parent', root: person })" ng-hide="person.parent_ids.length > 2" class="btn btn-default">Add parent</button>
-				</td>
-				<td>
-					<a ng-repeat="spouse in person.spouse_ids" href="#{{spouse}}">{{spouse}}</a><br>
-					<button ng-click="showForm({ create: 'spouse', root: person })" class="btn btn-default">Add spouse</button>
-				</td>
-				<td>
-					<a ng-repeat="child in person.child_ids" href="#{{child}}">{{child}}</a><br>
-					<button ng-click="showForm({ create: 'child', root: person })" class="btn btn-default">Add child</button>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+ -->
 
 </div>

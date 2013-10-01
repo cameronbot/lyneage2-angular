@@ -6,32 +6,27 @@ window.angular.module('ngl2.controllers.trees', [])
 
 			var authToken = Auth.token();
 
-			$scope._people = {};
+			$scope._people = Trees.getPeople();
 
 			$scope.find = function () {
-				Trees.getData({ 'auth_token': authToken }, function(response) {
+				Trees.resource.getData({ 'auth_token': authToken }, function(response) {
 					$scope.trees = response.trees;
 				});
 			};
 
 			$scope.findOne = function () {
-				Trees.get({ 'auth_token': authToken, treeId: $routeParams.treeId }, function (response) {
+				Trees.resource.get({ 'auth_token': authToken, treeId: $routeParams.treeId }, function (response) {
 					$scope.tree = response.tree;
 					$scope.people = response.people;
 
-					// prepare people hash from array
-					var people = response.people,
-							dict = $scope._people;
-					for(var i in people) {
-						var person = people[i];
-						dict[person._id] = person;
-					}
-					console.log(dict);
+					Trees.updatePeople(response.people);
+
+					console.log(Trees.getPeople());
 				});
 			};
 
 			$scope.create = function () {
-				var tree = new Trees({
+				var tree = new Trees.resource({
 					name: this.tree.name
 				});
 

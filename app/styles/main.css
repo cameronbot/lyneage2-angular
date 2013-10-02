@@ -1,28 +1,44 @@
 body {
-    background: #fff;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #333;
+  background: #fff;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #333;
+}
+
+/*.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 4.5px;
+}
+*/
+g circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+g {
+  font: 10px sans-serif;
+}
+
+.spouse text {
+  opacity: .5;
+}
+
+.m circle {
+  stroke: steelblue;
+}
+.f circle {
+  stroke: #c66;
 }
 
 .link {
   fill: none;
   stroke: #ccc;
-  stroke-width: 4.5px;
-}
-/*.hero-unit {
-    margin: 50px auto 0 auto;
-    width: 300px;
-    font-size: 18px;
-    font-weight: 200;
-    line-height: 30px;
-    background-color: #eee;
-    border-radius: 6px;
-    padding: 60px;
+  stroke-width: 1.5px;
 }
 
-.hero-unit h1 {
-    font-size: 60px;
-    line-height: 1;
-    letter-spacing: -1px;
+.link.spouse {
+  fill: none;
+  stroke: #f33;
+  stroke-width: 1px;
 }
-*/

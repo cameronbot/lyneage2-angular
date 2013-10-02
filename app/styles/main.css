@@ -4,6 +4,10 @@ body {
   color: #333;
 }
 
+body.modal-open {
+  margin-right: 0;
+}
+
 /*.link {
   fill: none;
   stroke: #ccc;

@@ -1,12 +1,13 @@
 'use strict';
 
 window.angular.module('ngl2.controllers.people', [])
-	.controller('PeopleCtrl', ['$scope','$routeParams','$location', '$http', 'Auth', 'Trees', 'People',
-		function($scope, $routeParams, $location, $http, Auth, Trees, People) {
+	.controller('PeopleCtrl', ['$scope', '$rootScope', '$routeParams','$location', '$http', '$filter', 'Auth', 'Trees', 'People',
+		function($scope, $rootScope, $routeParams, $location, $http, $filter, Auth, Trees, People) {
 
 			var authToken = Auth.token();
 
-			$scope._people = Trees.getPeople();
+			$rootScope._people = Trees.getPeople();
+			$rootScope.activePerson;
 
 			$scope.showModal = function (options) {
 				console.log(options);
@@ -37,101 +38,140 @@ window.angular.module('ngl2.controllers.people', [])
 				});
 			};
 
-			$scope.updateRelation = function () {
-				var params = {
-					_id: $routeParams.personId,
-					treeId: $routeParams.treeId,
-					person: {}
-				}
+			$scope.addRelation = function (options) {
+				var i = 0, j = 0, $ = window.$,
+						root = options.root;
 
-				params.person[inversePluralize($routeParams.action)] = [$scope.relation];
+				$rootScope.activePerson = root;
+				$rootScope.action = options.create;
+				$rootScope.suggestedRelatives = {
+					existing: [],
+					parent: [],
+					child: [],
+					spouse: []
+				};
 
-				console.log(params);
-				
-				new People(params).$update(function (response) {
-					$location.path('trees/' + $routeParams.treeId);
-				});
-			};
+				console.log('modal', options);
+				$('.modal').modal();
 
-			$scope.prepareRelatives = function () {
-				//$scope._people = Trees.getPeople();
-				console.log($routeParams, $scope._people);
-				var root = $scope.root = $scope._people[$routeParams.personId],
-						i = 0, j = 0;
-
-				$scope.action = $routeParams.action;
-				$scope.suggestedRelatives = [];
-
-				// TBD: suggestedRelatives should only return unique values
+				// TODO: suggestedRelatives should only return unique values
 				// 			and values not already related to root
-				switch ($scope.action) {
+				switch ($rootScope.action) {
 				case 'child':
+					$rootScope.suggestedRelatives.child = root.spouse_ids.map(function (id) {
+						return $rootScope._people[id];
+					});
+
 					// create a pool of potential children from existing spouse's children
 					for (i in root.spouse_ids) {
-						var spouse = $scope._people[root.spouse_ids[i]];
+						var spouse = $rootScope._people[root.spouse_ids[i]];
 
 						for (j in spouse.child_ids) {
-							$scope.suggestedRelatives.push($scope._people[spouse.child_ids[j]]);	
+							$rootScope.suggestedRelatives.existing.push($rootScope._people[spouse.child_ids[j]]);	
 						}
 					}
 					break;
 				case 'spouse':
+					$rootScope.suggestedRelatives.spouse = root.child_ids.map(function (id) {
+						return $rootScope._people[id];
+					});
+					
 					// create a pool of potential spouses from existing children's parents?
 					for (i in root.child_ids) {
-						var child = $scope._people[root.child_ids[i]];
+						var child = $rootScope._people[root.child_ids[i]];
 
 						for (j in child.parent_ids) {
-							$scope.suggestedRelatives.push($scope._people[child.parent_ids[j]]);	
+							$rootScope.suggestedRelatives.existing.push($rootScope._people[child.parent_ids[j]]);	
 						}
 					}
 					break;
 				case 'parent':
+					$rootScope.suggestedRelatives.parent = root.parent_ids.map(function (id) {
+						return $rootScope._people[id];
+					});
+
 					// create a pool of potential parents from existing parent's spouses
 					for (i in root.parent_ids) {
-						var parent = $scope._people[root.parent_ids[i]];
+						var parent = $rootScope._people[root.parent_ids[i]];
 
 						for (j in parent.spouse_ids) {
-							$scope.suggestedRelatives.push($scope._people[parent.spouse_ids[j]]);	
+							$rootScope.suggestedRelatives.existing.push($rootScope._people[parent.spouse_ids[j]]);
 						}
 					}
 					break;
 				}
 
-				console.log('suggestedRelatives', $scope.suggestedRelatives);
+				console.log('suggestedRelatives', $rootScope.suggestedRelatives);
 			};
 
-			$scope.showForm = function (options) {
-				$location
-					.search('action', options.create)
-					.path('trees/' + options.root.tree_id + '/people/' + options.root._id + '/create');
+			$scope.updateRelation = function () {
+				var params = {
+					_id: $rootScope.activePerson._id,
+					treeId: $routeParams.treeId,
+					person: {}
+				};
+
+				params.person[inversePluralize($rootScope.action)] = [$scope.relation];
+
+				console.log(params);
+				
+				new People(params).$update(function (response) {
+					//$location.path('trees/' + $routeParams.treeId);
+					$('.modal').modal('hide');
+					$rootScope._people = Trees.updatePeople(response.people);
+				});
 			};
 
 			$scope.create = function () {
-				
+				var $ = window.$,
+						activePersonId = $rootScope.activePerson._id;
+
+				console.log('activePerson', $rootScope.activePerson);
+
 				var params = {
 					treeId: $routeParams.treeId,
-					person: $scope.person
+					person: $scope.newPerson
 				};
 
-				console.log('action', $routeParams.action);
+				console.log('action', $rootScope.action);
 
-				if ($routeParams.action) {
-					
-					switch ($routeParams.action) {
+				if ($rootScope.action) {
+					params.person.children = [];
+					params.person.parents = [];
+					params.person.spouses = [];
+
+					switch ($rootScope.action) {
 					case 'child':
-						params.person.children = [$routeParams.personId];
+						params.person.children = [activePersonId];
+						if ($scope.additionalRelation) {
+							params.person.children.push($scope.additionalRelation);
+						}
 						break;
 					case 'parent':
-						params.person.parents = [$routeParams.personId];
+						params.person.parents = [activePersonId];
+						if ($scope.additionalRelation) {
+							params.person.spouses.push($scope.additionalRelation);
+						}
 						break;
 					case 'spouse':
-						params.person.spouses = [$routeParams.personId];
+						params.person.spouses = [activePersonId];
+						console.log('should be here', $scope.suggestedRelatives);
+						params.person.parents = $filter('filter')($scope.suggestedRelatives.spouse, { checked: true }).map(function (person) {
+							return person._id;
+						});
+						console.log("thomas", params.person.parents);
 						break;
 					}
 				}
 
+				$rootScope.currentPerson = undefined;
+				$rootScope.action = undefined;
+				$scope.additionalRelation = undefined;
+				$scope.newPerson = undefined;
+
 				new People(params).$save(function (response) {
-					$location.path('trees/' + $routeParams.treeId);
+					$('.modal').modal('hide');
+					$rootScope._people = Trees.updatePeople(response.people);
 				});
 			};
 
@@ -142,6 +182,8 @@ window.angular.module('ngl2.controllers.people', [])
 				};
 
 				new People(params).$delete(function (response) {
+					// WARNING: when this is pulled into the same view, routeParams will not be available
+					$rootScope._people = Trees.deletePerson($scope.person._id);
 					$location.path('trees/' + $routeParams.treeId);
 				});
 			};

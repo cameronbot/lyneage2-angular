@@ -13,11 +13,17 @@ window.angular.module('ngl2.services.trees', [])
 			getPerson: function (id) {
 				return people[id];
 			},
+			deletePerson: function (id) {
+				delete people[id];
+				return people;
+			},
 			updatePeople: function (modified) {
 				for(var i in modified) {
 					var person = modified[i];
 					people[person._id] = person;
 				}
+
+				return people;
 			},
 			resource: $resource('http://localhost:port/api/v1/trees/:treeId',
 			{

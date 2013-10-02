@@ -17,10 +17,22 @@ window.angular.module('ngl2.services.trees', [])
 				delete people[id];
 				return people;
 			},
-			updatePeople: function (modified) {
-				for(var i in modified) {
-					var person = modified[i];
+			updatePeople: function (modified, deleted) {
+				var i = 0,
+						person;
+
+				for (i in modified) {
+					person = modified[i];
 					people[person._id] = person;
+				}
+
+				if (deleted) {
+					// ensure array
+					deleted = [].concat(deleted);
+					for (i in deleted) {
+						person = deleted[i];
+						delete people[person._id];
+					}
 				}
 
 				return people;

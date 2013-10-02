@@ -142,13 +142,13 @@ window.angular.module('ngl2.controllers.people', [])
 
 					switch ($rootScope.action) {
 					case 'child':
-						params.person.children = [activePersonId];
+						params.person.parents = [activePersonId];
 						if ($scope.additionalRelation) {
-							params.person.children.push($scope.additionalRelation);
+							params.person.parents.push($scope.additionalRelation);
 						}
 						break;
 					case 'parent':
-						params.person.parents = [activePersonId];
+						params.person.children = [activePersonId];
 						if ($scope.additionalRelation) {
 							params.person.spouses.push($scope.additionalRelation);
 						}
@@ -156,10 +156,10 @@ window.angular.module('ngl2.controllers.people', [])
 					case 'spouse':
 						params.person.spouses = [activePersonId];
 						console.log('should be here', $scope.suggestedRelatives);
-						params.person.parents = $filter('filter')($scope.suggestedRelatives.spouse, { checked: true }).map(function (person) {
+						params.person.children = $filter('filter')($scope.suggestedRelatives.spouse, { checked: true }).map(function (person) {
 							return person._id;
 						});
-						console.log("thomas", params.person.parents);
+						
 						break;
 					}
 				}
@@ -183,7 +183,8 @@ window.angular.module('ngl2.controllers.people', [])
 
 				new People(params).$delete(function (response) {
 					// WARNING: when this is pulled into the same view, routeParams will not be available
-					$rootScope._people = Trees.deletePerson($scope.person._id);
+					//$rootScope._people = Trees.deletePerson(response.id);
+					$rootScope._people = Trees.updatePeople(response.people, response.person)
 					$location.path('trees/' + $routeParams.treeId);
 				});
 			};

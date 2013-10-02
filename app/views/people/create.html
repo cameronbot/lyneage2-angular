@@ -1,3 +1,20 @@
+<form ng-controller="PeopleCtrl" class="form-horizontal" role="form" ng-init="prepareRelatives()" ng-submit="updateRelation()">
+  <div class="form-group">
+    <label for="relative" class="col-lg-3 control-label">Select {{action}}</label>
+    <div class="col-lg-3">
+      <select ng-model="relation" name="relative" ng-options="r._id as r.birth_name for r in suggestedRelatives">
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-lg-offset-3 col-lg-3">
+      <button type="submit" class="btn btn-default">Add {{action}}</button>
+    </div>
+  </div>
+</form>
+
+<p>or add a new person</p>
+
 <form ng-controller="PeopleCtrl" class="form-horizontal" role="form" ng-submit="create()">
   <div class="form-group">
     <label for="birthname" class="col-lg-3 control-label">Birth name</label>

@@ -5,9 +5,10 @@ window.angular.module('ngl2.controllers.people', [])
 		function($scope, $rootScope, $routeParams, $location, $http, $filter, Auth, Trees, People) {
 
 			var authToken = Auth.token();
-
 			$rootScope._people = Trees.getPeople();
-			$rootScope.activePerson;
+			$rootScope.activePerson = {};
+
+			$scope.searchText = '';
 
 			$scope.showModal = function (options) {
 				console.log(options);
@@ -189,6 +190,10 @@ window.angular.module('ngl2.controllers.people', [])
 				});
 			};
 
+			$scope.selectPerson = function (id) {
+				$rootScope.activePerson = $rootScope._people[id];
+				console.log($rootScope.activePerson);
+			}
 			function inversePluralize (option) {
 				switch (option) {
 				case 'child':

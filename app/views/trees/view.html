@@ -1,9 +1,10 @@
-<div ng-controller="TreesCtrl" ng-init="findOne()">
+<div class="container" ng-controller="TreesCtrl" ng-init="findOne()">
+
 	<h2>{{tree.name}}</h2>
 	<p>{{tree.description}}</p>
 
 	<button ng-click="showModal()" class="btn btn-default">Add new person</button>
-
+	
 	<table ng-controller="PeopleCtrl" class="table table-striped">
 		<thead>
 			<tr>

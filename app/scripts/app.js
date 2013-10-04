@@ -15,7 +15,7 @@ window.app = angular.module('ngl2', ['ngResource','ngCookies','ngl2.controllers'
         controller: 'TreesCtrl'
       })
       .when('/trees/:treeId', {
-        templateUrl: 'views/trees/view.html'
+        templateUrl: 'views/trees/interface.html'
       })
       .when('/trees/:treeId/people/create', {
         templateUrl: 'views/people/create.html'

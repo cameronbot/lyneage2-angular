@@ -2,18 +2,69 @@ body {
   background: #fff;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #333;
+  height: 100%;
+  overflow: hidden;
 }
 
 body.modal-open {
   margin-right: 0;
 }
 
-/*.link {
-  fill: none;
-  stroke: #ccc;
-  stroke-width: 4.5px;
+#interface {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  padding: 0;
 }
-*/
+
+#col-main {
+  height: 100%;
+}
+
+#col-filter {
+  background: #fafafa;
+  border-right: 1px solid #ccc;
+  height: 100%;
+  overflow: none;
+}
+
+#col-filter .search-wrap {
+  padding: 10px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+#col-filter ul {
+  list-style: none;
+  height: 100%;
+  overflow: auto;
+  padding: 0 0 55px 0;
+}
+
+#col-filter li {
+  border-bottom: 1px solid #ccc;
+}
+
+#col-canvas, #col-data {
+  height: 50%;
+  overflow: auto;
+}
+
+#col-intro {
+  height: 100%;
+  overflow: auto;
+  text-align: center;
+  background: url(/images/splash2.jpg) no-repeat;
+  background-size: cover;
+  background-position: 50% 50%;
+  color: #fff;
+  text-shadow: 1px 1px 2px #333;
+}
+
+#col-intro h1 {
+  margin-top: 120px;
+}
+
 g circle {
   fill: #fff;
   stroke: steelblue;
@@ -45,4 +96,11 @@ g {
   fill: none;
   stroke: salmon;
   stroke-width: 1px;
+}
+
+.copyright {
+  position: absolute;
+  bottom: 0;
+  right: 12px;
+  font-size: 12px;
 }

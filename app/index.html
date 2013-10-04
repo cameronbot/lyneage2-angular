@@ -28,7 +28,7 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="container">
+    <!-- <div class="container">
       <div class="page-header">
         <h1>Lyneage Family Tree Builder</h1>
         <p class="lead">Lineage mapped with d3.js</p>
@@ -46,12 +46,12 @@
         </div>
         <div class="collapse navbar-collapse navbar-ex4-collapse">
           <a href="#/login" class="btn btn-primary navbar-btn pull-right">Sign in</a>
-          <!-- <p class="navbar-text pull-right">Signed in!</p> -->
+
         </div>
       </nav>
     </div>
-
-    <div class="container" ng-view=""></div>
+ -->
+    <div ng-view=""></div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
@@ -64,15 +64,16 @@
        ga('send', 'pageview');
     </script>
 
-    <script src="bower_components/jquery/jquery.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/d3/d3.js"></script>
+    <script src="bower_components/underscore/underscore-min.js"></script>
+    <script src="bower_components/jquery/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/d3/d3.min.js"></script>
 
         <!-- build:js scripts/modules.js -->
-        <script src="bower_components/angular-resource/angular-resource.js"></script>
-        <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-        <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+        <script src="bower_components/angular-resource/angular-resource.min.js"></script>
+        <script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
+        <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
         <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->

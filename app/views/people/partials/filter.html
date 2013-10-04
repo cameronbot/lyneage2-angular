@@ -1,0 +1,10 @@
+<div class="search-wrap">
+		<input type="text" class="form-control search-query" placeholder="Search for people" ng-model="searchText" />
+</div>
+<ul>
+	<li ng-repeat="person in _peopleIndex | filter:{ birth_name: searchText }" ng-click="selectPerson(person._id)">
+		<strong title="{{person._id}}">{{person.birth_name}}</strong>
+		<br>
+		<span>{{person.dob}} - {{person.dob}}</span>
+	</li>
+</ul>

@@ -1,10 +1,10 @@
 'use strict';
 
 window.angular.module('ngl2.controllers.trees', [])
-	.controller('TreesCtrl', ['$scope','$routeParams','$location', 'Trees',
-		function($scope, $routeParams, $location, Trees) {
+	.controller('TreesCtrl', ['$scope', '$rootScope', '$routeParams','$location', 'Trees',
+		function($scope, $rootScope, $routeParams, $location, Trees) {
 
-			$scope._people = Trees.getPeople();
+			$rootScope._people = Trees.getPeople();
 
 			$scope.find = function () {
 				Trees.resource.getData(function(response) {

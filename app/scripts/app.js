@@ -1,11 +1,10 @@
 'use strict';
 
-window.app = angular.module('ngl2', ['ngResource','ngCookies','ngl2.controllers','ngl2.services', 'ngl2.directives'])
+window.app = angular.module('ngl2', ['ngResource','ngCookies','ngl2.controllers','ngl2.services', 'ngl2.directives', 'ui.bootstrap'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        templateUrl: 'views/static/intro.html'
       })
       .when('/login', {
         templateUrl: 'views/auth/login.html'
@@ -34,6 +33,6 @@ window.app = angular.module('ngl2', ['ngResource','ngCookies','ngl2.controllers'
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
   }]);
 
-angular.module('ngl2.controllers', ['ngl2.controllers.main', 'ngl2.controllers.auth', 'ngl2.controllers.trees', 'ngl2.controllers.people']);
+angular.module('ngl2.controllers', ['ngl2.controllers.main', 'ngl2.controllers.trees', 'ngl2.controllers.people', 'ngl2.controllers.login', 'ngl2.controllers.register']);
 angular.module('ngl2.services', ['ngl2.services.global', 'ngl2.services.auth', 'ngl2.services.trees', 'ngl2.services.people']);
 angular.module('ngl2.directives', ['ngl2.directives.tree']);

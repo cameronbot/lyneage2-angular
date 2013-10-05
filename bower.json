@@ -13,6 +13,7 @@
     "angular-mocks": "~1.0.7",
     "angular-scenario": "~1.0.7",
     "d3": "~3.3.6",
-    "underscore": "~1.5.2"
+    "underscore": "~1.5.2",
+    "angular-ui": "~0.4.0"
   }
 }

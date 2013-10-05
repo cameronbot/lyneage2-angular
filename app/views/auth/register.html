@@ -2,11 +2,11 @@
   <div class="modal-content">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">&times;</button>
-      <h4 class="modal-title">Please sign in</h4>
+      <h4 class="modal-title">Sign up to get started</h4>
     </div>
     <div class="modal-body">
 
-      <form class="form-horizontal" role="form" ng-submit="login()">
+      <form class="form-horizontal" role="form">
         <div class="form-group">
           <label for="login-email" class="col-lg-6 control-label">E-mail</label>
           <div class="col-lg-6">
@@ -20,18 +20,15 @@
           </div>
         </div>
         <div class="form-group">
-          <div class="col-lg-offset-6 col-lg-6">
-            <div class="checkbox">
-              <label>
-                <input ng-model="$parent.credentials.remember" type="checkbox"> Remember me?
-              </label>
-            </div>
+          <label for="login-password-confirm" class="col-lg-6 control-label">Confirm password</label>
+          <div class="col-lg-6">
+            <input ng-model="$parent.credentials.passwordConfirm" type="password" class="form-control" id="login-password-confirm" placeholder="Password">
           </div>
         </div>
         <div class="form-group">
           <div class="col-lg-12">
-            <button type="submit" class="btn btn-primary pull-right">Sign in</button>
-            <button class="btn btn-link pull-right" ng-click="cancel()">Register</button>
+            <button ng-click="switch()" class="btn btn-primary pull-right">Register</button>
+            <button class="btn btn-link pull-right" ng-click="cancel()">Sign in</button>
           </div>
         </div>
       </form>

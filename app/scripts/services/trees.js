@@ -68,7 +68,7 @@ window.angular.module('ngl2.services.trees', [])
 			{
 				'port': ':3000',
 				'auth_token': Auth.token(),
-			  'treeId': '@_id'
+			  //'treeId': '@_id'
 			},
 			{
 				update: { method: 'PUT'},

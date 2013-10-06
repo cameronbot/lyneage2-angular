@@ -1,10 +1,12 @@
-<h1>Lyneage</h1>
-<p class="lead">Build your family tree. Share your history.</p>
+<div id="col-intro">
+	<h1>Lyneage</h1>
+	<p class="lead">Build your family tree. Share your history.</p>
 
-<p>
-	<button ng-controller="RegisterModalCtrl" ng-click="modalOpen()" class="btn btn-primary btn-lg">Register</button>
-  <button ng-controller="LoginModalCtrl" ng-click="modalOpen()" class="btn btn-success btn-lg">Sign in</button>
-</p>
+	<p>
+		<button ng-controller="RegisterModalCtrl" ng-click="modalOpen()" class="btn btn-primary btn-lg">Register</button>
+	  <button ng-controller="LoginModalCtrl" ng-click="modalOpen()" class="btn btn-success btn-lg">Sign in</button>
+	</p>
 
-<p ng-controller="LoginModalCtrl" ng-show="loggedIn" ng-click="logout()">Logout</p>
-<p class="copyright">Made by <a href="http://github.com/cameronbot" target="_blank">Cameron Hill</a> with AngularJS, d3, and Ruby on Rails. ♥</p>
+	<p ng-controller="LoginModalCtrl" ng-show="loggedIn" ng-click="logout()">Logout</p>
+	<p class="copyright">Made by <a href="http://github.com/cameronbot" target="_blank">Cameron Hill</a> with AngularJS, d3, and Ruby on Rails. ♥</p>
+</div>

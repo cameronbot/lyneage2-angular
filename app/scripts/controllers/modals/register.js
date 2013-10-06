@@ -3,11 +3,13 @@
 window.angular.module('ngl2.controllers.register', ['ui.bootstrap'])
 .controller('RegisterModalCtrl', ['$scope', '$modal', '$location', '$log', 'Auth', function ($scope, $modal, $location, $log, Auth) {
   
-  $scope.$on('switch', function (action) {
-    if (action === 'register') {
-      $scope.modalOpen();
-    }
-  });
+  $scope.loggedIn = !!Auth.token();
+  $scope.logout = function () {
+    Auth.logout(function () {
+      $scope.loggedIn = !!Auth.token();
+      $location.path('/');
+    });
+  };
 
   $scope.modalOpen = function () {
     var modalInstance = $modal.open({

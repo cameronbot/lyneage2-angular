@@ -5,7 +5,10 @@
 			<div id="col-canvas" class="col-lg-12" ng-include="'views/people/partials/canvas.html'"></div>
 			<div id="col-data" class="col-lg-12" ng-include="'views/people/partials/dataframe.html'"></div>
 		</div>
-		<div id="col-intro" class="col-lg-9" ng-hide="activePerson._id" ng-include="'views/static/intro.html'">
+		<div class="panel-instruct" class="col-lg-9" ng-hide="activePerson._id">
+			<h2>Choose a person from the list</h2>
+			<p>or...</p>
+			<p><button class="btn btn-warn">Add a new person</button></p>
 		</div>
 		
 		<div class="modal fade">

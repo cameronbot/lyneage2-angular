@@ -27,31 +27,10 @@
       <script src="bower_components/json3/lib/json3.min.js"></script>
     <![endif]-->
 
-    <!-- Add your site or application content here -->
-    <!-- <div class="container">
-      <div class="page-header">
-        <h1>Lyneage Family Tree Builder</h1>
-        <p class="lead">Lineage mapped with d3.js</p>
-      </div>
-
-      <nav class="navbar navbar-default" role="navigation">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex4-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Lyneage</a>
-        </div>
-        <div class="collapse navbar-collapse navbar-ex4-collapse">
-          <a href="#/login" class="btn btn-primary navbar-btn pull-right">Sign in</a>
-
-        </div>
-      </nav>
-    </div>
- -->
-    <div ng-view=""></div>
+    
+    <div ng-include="'views/static/header.html'"></div>
+    
+    <div ng-view="" style="height: 100%"></div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>

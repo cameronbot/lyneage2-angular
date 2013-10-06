@@ -1,8 +1,12 @@
 'use strict';
 
 window.angular.module('ngl2.controllers.trees', [])
-	.controller('TreesCtrl', ['$scope', '$rootScope', '$routeParams','$location', 'Trees',
-		function($scope, $rootScope, $routeParams, $location, Trees) {
+	.controller('TreesCtrl', ['$scope', '$rootScope', '$routeParams','$location', 'Trees', 'Auth',
+		function($scope, $rootScope, $routeParams, $location, Trees, Auth) {
+			if(!Auth.token()) {
+				$location.path('/');
+				return;
+			}
 
 			$rootScope._people = Trees.getPeople();
 

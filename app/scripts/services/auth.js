@@ -2,10 +2,19 @@
 
 window.angular.module('ngl2.services.auth', ['ngCookies'])
 	.factory('Auth', ['$http', '$cookieStore', function ($http, $cookieStore) {
-		var authToken,
-				user;
+		var AuthService = {};
 
-		var login = function (email, pass, remember, callback) {
+		AuthService.user = $cookieStore.get('user') || {};
+		
+		AuthService.token = function () {
+			return AuthService.user.token;
+		};
+
+		AuthService.loggedIn = function () {
+			return AuthService.user && AuthService.user.token;
+		};
+
+		AuthService.login = function (email, pass, remember, callback) {
 			$http({
 				method: 'POST',
 				url: 'http://localhost:3000/api/v1/users/sign_in',
@@ -15,20 +24,12 @@ window.angular.module('ngl2.services.auth', ['ngCookies'])
 					'remember_me': remember
 				}
 			})
-			.success(function(data) {
-				authToken = data.authentication_token;
-				user = data.user;
-				console.log('user data set', data);
-
-				$cookieStore.put('token', authToken);
-				$cookieStore.put('user', user);
-
-				console.log($cookieStore.get('token'));
-				callback();
+			.success(function (data) {
+				successCallback.call(this, data, callback);
 			});
 		};
 
-		var register = function (email, pass, passConfirm, callback) {
+		AuthService.register = function (email, pass, passConfirm, callback) {
 			$http({
 				method: 'POST',
 				url: 'http://localhost:3000/api/v1/users',
@@ -40,53 +41,31 @@ window.angular.module('ngl2.services.auth', ['ngCookies'])
 					}
 				}
 			})
-			.success(function(data) {
-				authToken = data.authentication_token;
-				user = data.user;
-				console.log('user data set', data);
-
-				$cookieStore.put('token', authToken);
-				$cookieStore.put('user', user);
-
-				console.log($cookieStore.get('token'));
-				callback();
+			.success(function (data) {
+				successCallback.call(this, data, callback);
 			});
 		};
 
-		var logout = function (callback) {
+		AuthService.logout = function (callback) {
 			$http({
 				method: 'DELETE',
-				url: 'http://localhost:3000/api/v1/users/sign_out?auth_token=' + authToken
+				url: 'http://localhost:3000/api/v1/users/sign_out?auth_token=' + AuthService.token()
 			})
 			.success(function() {
-				authToken = undefined;
-				user = undefined;
-				console.log('user data cleared');
-
-				$cookieStore.put('token', authToken);
-				$cookieStore.put('user', user);
-
-				console.log($cookieStore.get('token'));
+				AuthService.user = {};
+				$cookieStore.put('user', AuthService.user);
 				callback();
 			});
 		};
 
-		return {
-			token: function() {
-				if(!authToken) authToken = $cookieStore.get('token');
+		var successCallback = function(data, callback) {
+			data.user.token = data.authentication_token;
+			AuthService.user = data.user;
 
-				return authToken;
-			},
-			user: function() {
-				if(!user) user = $cookieStore.get('user');
+			$cookieStore.put('user', AuthService.user);
 
-				return user;
-			},
-			isSignedIn: function() {
-				return !!user;
-			},
-			login: login,
-			logout: logout,
-			register: register
+			if (callback) { callback(); }
 		};
+
+		return AuthService;
 	}]);

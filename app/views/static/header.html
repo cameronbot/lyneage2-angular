@@ -9,11 +9,10 @@
     <a class="navbar-brand" href="#/trees">Lyneage</a>
   </div>
   <div class="collapse navbar-collapse navbar-ex4-collapse">
-    <div ng-controller="LoginModalCtrl">
-      <button ng-click="logout()" ng-show="loggedIn" class="btn btn-link navbar-btn pull-right">Logout</button>
-      <button ng-click="modalOpen()" ng-hide="loggedIn" class="btn btn-success navbar-btn pull-right">Sign in</button>
-    </div>
-      <button ng-controller="RegisterModalCtrl" ng-hide="loggedIn" ng-click="modalOpen()" class="btn btn-primary navbar-btn pull-right">Register</button>
+    <div ng-controller="AccountCtrl">
+      <button ng-click="logout()" ng-show="loggedIn()" class="btn btn-link navbar-btn pull-right">Logout</button>
+      <button ng-click="login()" ng-hide="loggedIn()" class="btn btn-success navbar-btn pull-right">Sign in</button>
+      <button ng-click="register()" ng-hide="loggedIn()" class="btn btn-primary navbar-btn pull-right">Register</button>
     </div>
   </div>
 </nav>

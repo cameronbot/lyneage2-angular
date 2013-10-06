@@ -4,7 +4,6 @@ window.angular.module('ngl2.controllers.people', [])
 	.controller('PeopleCtrl', ['$scope', '$rootScope', '$routeParams','$location', '$http', '$filter', 'Auth', 'Trees', 'People',
 		function($scope, $rootScope, $routeParams, $location, $http, $filter, Auth, Trees, People) {
 
-			var authToken = Auth.token();
 			$rootScope._people = Trees.getPeople();
 			$rootScope.activePerson = {};
 
@@ -30,7 +29,7 @@ window.angular.module('ngl2.controllers.people', [])
 				var params = {
 					_id: $scope.person._id,
 					treeId: $routeParams.treeId,
-					auth_token: authToken,
+					auth_token: Auth.token(),
 					person: $scope.person
 				};
 

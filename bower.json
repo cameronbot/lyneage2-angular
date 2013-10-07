@@ -14,6 +14,8 @@
     "angular-scenario": "~1.0.7",
     "d3": "~3.3.6",
     "underscore": "~1.5.2",
-    "angular-ui": "~0.4.0"
+    "angular-ui": "~0.4.0",
+    "jquery": "~2.0.3",
+    "bootstrap": "~3.0.0"
   }
 }

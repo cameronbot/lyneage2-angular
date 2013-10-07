@@ -115,7 +115,6 @@ module.exports = function (grunt) {
         files: [{
           dot: true,
           src: [
-            '<%= yemoman.app %>',
             '<%= yeoman.dist %>/*',
             '!<%= yeoman.dist %>/.git*'
           ]

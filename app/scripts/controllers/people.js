@@ -34,6 +34,10 @@ window.angular.module('ngl2.controllers.people', [])
 				});
 			};
 
+			$scope.addPerson = function () {
+				$('.modal').modal();
+			};
+
 			$scope.addRelation = function (options) {
 				var i = 0, j = 0, $ = window.$,
 						root = options.root;
@@ -146,7 +150,6 @@ window.angular.module('ngl2.controllers.people', [])
 						break;
 					case 'spouse':
 						params.person.spouses = [activePersonId];
-						console.log('should be here', $scope.suggestedRelatives);
 						params.person.children = $filter('filter')($scope.suggestedRelatives.spouse, { checked: true }).map(function (person) {
 							return person._id;
 						});
@@ -155,7 +158,7 @@ window.angular.module('ngl2.controllers.people', [])
 					}
 				}
 
-				$rootScope.currentPerson = undefined;
+				//$rootScope.currentPerson = undefined;
 				$rootScope.action = undefined;
 				$scope.additionalRelation = undefined;
 				$scope.newPerson = undefined;

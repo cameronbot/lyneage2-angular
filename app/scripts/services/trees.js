@@ -33,6 +33,10 @@ window.angular.module('ngl2.services.trees', [])
 		}
 
 		return {
+			reset: function () {
+				currentTree = undefined;
+				people = {};
+			},
 			getPeople: function () {
 				return people;
 			},

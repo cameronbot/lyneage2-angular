@@ -8,7 +8,7 @@
 		<div class="panel-instruct" class="col-lg-9" ng-hide="activePerson._id">
 			<h2>Choose a person from the list</h2>
 			<p>or...</p>
-			<p><button class="btn btn-warn">Add a new person</button></p>
+			<p><button class="btn btn-warn" ng-click="addPerson()">Add a new person</button></p>
 		</div>
 		
 		<div class="modal fade">
@@ -16,7 +16,8 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h3 class="modal-title">Link a {{action}} to {{activePerson.birth_name}}</h3>
+						<h3 ng-show="action" class="modal-title">Link a {{action}} to {{activePerson.birth_name}}</h3>
+						<h3 ng-hide="action" class="modal-title">Let's get started</h3>
 					</div>
 					<div class="modal-body" ng-show="suggestedRelatives.length > 0">
 						<h4>Select existing person</h4>

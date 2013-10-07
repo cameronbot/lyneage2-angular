@@ -1,0 +1,134 @@
+<div class="container" ng-controller="TreesCtrl" ng-init="findOne()">
+
+	<h2>{{tree.name}}</h2>
+	<p>{{tree.description}}</p>
+
+	<button ng-click="showModal()" class="btn btn-default">Add new person</button>
+	
+	<table ng-controller="PeopleCtrl" class="table table-striped">
+		<thead>
+			<tr>
+				<th></th>
+				<th>Name</th>
+				<th>Gender</th>
+				<th>Parents</th>
+				<th>Spouses</th>
+				<th>Children</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="person in _people">
+				<td>
+					<button ng-click="editForm(person)" class="btn btn-default">Edit</button>
+				</td>
+				<td>
+					<a name="{{person._id}}"></a>
+					<span title="{{person._id}}">{{person.birth_name}}</span><br>
+					<svg tree="" person="person" width="400" height="200"></svg>
+				</td>
+				<td>{{person.gender}}</td>
+				<td>
+					<a ng-repeat="parent in person.parent_ids" href="#{{parent}}" target="_self">{{_people[parent].birth_name}}<br></a>
+					<button ng-click="addRelation({ create: 'parent', root: person })" ng-hide="person.parent_ids.length >= 2" class="btn btn-default">Add parent</button>
+				</td>
+				<td>
+					<a ng-repeat="spouse in person.spouse_ids" href="#{{spouse}}" target="_self">{{_people[spouse].birth_name}}<br></a>
+					<button ng-click="addRelation({ create: 'spouse', root: person })" class="btn btn-default">Add spouse</button>
+				</td>
+				<td>
+					<a ng-repeat="child in person.child_ids" href="#{{child}}" target="_self">{{_people[child].birth_name}}<br></a>
+					<button ng-click="addRelation({ create: 'child', root: person })" class="btn btn-default">Add child</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+<!-- 	<h4>Dictionary _people</h4>
+	<ul>
+		<li ng-repeat="(id, person) in _people">{{id}} {{person.birth_name}}</li>
+	</ul>
+ -->
+
+
+
+
+	<div class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content" ng-controller="PeopleCtrl">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h3 class="modal-title">Link a {{action}} to {{activePerson.birth_name}}</h3>
+				</div>
+				<div class="modal-body" ng-show="suggestedRelatives.length > 0">
+					<h4>Select existing person</h4>
+
+					<form class="form-horizontal" role="form" ng-submit="updateRelation()">
+					  <div class="form-group">
+					    <label for="relative" class="col-lg-3 control-label">Select {{action}}</label>
+					    <div class="col-lg-9">
+					      <select ng-model="relation" name="relative" ng-options="r._id as r.birth_name for r in suggestedRelatives.existing">
+					      </select>
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <div class="col-lg-offset-3 col-lg-9">
+					      <button type="submit" class="btn btn-default">Add {{action}}</button>
+					    </div>
+					  </div>
+					</form>
+				</div>
+				<div class="modal-body">
+					<h4>Add a new person</h4>	
+
+					<form class="form-horizontal" role="form" ng-submit="create()">
+					  <div class="form-group">
+					    <label for="birthname" class="col-lg-3 control-label">Birth name</label>
+					    <div class="col-lg-9">
+					      <input ng-model="newPerson.birth_name" type="text" class="form-control" id="birthname" placeholder="Birth name">
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label for="gender" class="col-lg-3 control-label">Gender</label>
+					    <div class="col-lg-9">
+					      <label class="radio-inline">
+					        <input type="radio" name="gender" ng-model="newPerson.gender" value="1"> Male
+					      </label>
+					      <label class="radio-inline">
+					        <input type="radio" name="gender" ng-model="newPerson.gender" value="2"> Female
+					      </label>
+					    </div>
+					  </div>
+					  <div class="form-group" ng-show="action == 'child'">
+					    <label for="parents" class="col-lg-3 control-label">Parents</label>
+					    <div class="col-lg-9">
+					      {{activePerson.birth_name}} and
+					      <select ng-model="additionalRelation" name="relative" ng-options="r._id as r.birth_name for r in suggestedRelatives[action]">
+					      </select>
+					    </div>
+					  </div>
+					  <div class="form-group" ng-show="action == 'spouse'">
+					    <label for="parents" class="col-lg-3 control-label">Children</label>
+					    <div class="col-lg-9">
+					    	<label ng-repeat="r in suggestedRelatives[action]">
+									<input type="checkbox" name="suggestedRelatives[]" value="{{r._id}}" ng-checked="r.checked" ng-model="r.checked"> {{r.birth_name}}
+					    	</label>
+					    </div>
+					  </div>
+					  <div class="form-group" ng-show="action == 'parent'">
+					    <label for="parents" class="col-lg-3 control-label">Spouse?</label>
+					    <div class="col-lg-9">
+					      <select ng-model="additionalRelation" name="relative" ng-options="r._id as r.birth_name for r in suggestedRelatives[action]">
+					      </select>
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <div class="col-lg-offset-3 col-lg-9">
+					      <button type="submit" class="btn btn-default">Create person</button>
+					    </div>
+					  </div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

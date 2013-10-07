@@ -4,7 +4,7 @@ window.angular.module('ngl2.controllers.people', [])
 	.controller('PeopleCtrl', ['$scope', '$rootScope', '$routeParams','$location', '$http', '$filter', '$route', 'Auth', 'Trees', 'People',
 		function($scope, $rootScope, $routeParams, $location, $http, $filter, $route, Auth, Trees, People) {
 
-			$rootScope._people = Trees.getPeople();
+			// $rootScope._people = Trees.getPeople();
 			$rootScope.activePerson = {};
 
 			$scope.searchText = '';

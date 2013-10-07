@@ -13,11 +13,9 @@ window.angular.module('ngl2.controllers.trees', [])
 			$scope.create = function () {
 	      console.log('submitted trees');
 
-	      var tree = new Trees.resource({
+	      new Trees.resource({
 					name: $scope.tree.name
-				});
-
-				tree.$save(function(response) {
+				}).$save(function(response) {
 					$location.path('/trees/' + response.tree._id);
 				});
 
@@ -25,34 +23,20 @@ window.angular.module('ngl2.controllers.trees', [])
 		  };
 
 			$scope.find = function () {
-				Trees.resource.getData({ auth_token: Auth.token()} ,function(response) {
+				Trees.resource.getData({ auth_token: Auth.token() } ,function(response) {
 					$scope.trees = response.trees;
 				});
 			};
 
 			$scope.findOne = function () {
-				Trees.resource.get({ treeId: $routeParams.treeId }, function (response) {
-					$scope.tree = response.tree;
-					$scope.people = response.people;
-
-					Trees.updatePeople(response.people);
+				Trees.resource.get({ treeId: $routeParams.treeId, auth_token: Auth.token() }, function (response) {
+					$rootScope.activeTree = response.tree;
+					$rootScope._people = Trees.updatePeople(response.people);
 				});
 			};
 
-			// $scope.create = function () {
-			// 	var tree = new Trees.resource({
-			// 		name: this.tree.name
-			// 	});
-
-			// 	tree.$save(function(response) {
-			// 		$location.path('/trees/' + response.id);
-			// 	});
-
-			// 	this.tree.name = '';
-			// };
-
 			$scope.view = function(tree) {
-				$scope.tree = tree;
+				$rootScope.activeTree = tree;
 				$location.path('/trees/' + tree._id);
 			};
 

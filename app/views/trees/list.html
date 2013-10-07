@@ -5,15 +5,11 @@
 		<thead>
 			<tr>
 				<th>Name</th>
-				<th>Tree Id</th>
-				<th>User Id</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr ng-repeat="tree in trees" ng-click="view(tree)">
-				<td>{{tree.name}}</td>
-				<td>{{tree._id}}</td>
-				<td>{{tree.user_id}}</td>
+				<td>{{tree.name}} ({{tree.person_count || 0}} people)</td>
 			</tr>
 		</tbody>
 	</table>

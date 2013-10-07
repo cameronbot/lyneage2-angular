@@ -9,6 +9,7 @@
     <a class="navbar-brand" href="#/trees">Lyneage</a>
   </div>
   <div class="collapse navbar-collapse navbar-ex4-collapse">
+    <div class="tree-name" ng-show="activeTree">{{activeTree.name}}</div>
     <div ng-controller="AccountCtrl">
       <button ng-click="logout()" ng-show="loggedIn()" class="btn btn-link navbar-btn pull-right">Logout</button>
       <button ng-click="login()" ng-hide="loggedIn()" class="btn btn-success navbar-btn pull-right">Sign in</button>

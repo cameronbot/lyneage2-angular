@@ -1,12 +1,15 @@
 'use strict';
 
 window.angular.module('ngl2.controllers.account', ['ui.bootstrap'])
-.controller('AccountCtrl', ['$scope', '$modal', '$location', '$route', '$log', 'Auth', function ($scope, $modal, $location, $route, $log, Auth) {
+.controller('AccountCtrl', ['$scope', '$rootScope', '$modal', '$location', '$route', '$log', 'Auth', function ($scope, $rootScope, $modal, $location, $route, $log, Auth) {
 
   $scope.loggedIn = Auth.loggedIn;
 
   $scope.logout = function () {
     Auth.logout(function () {
+      $rootScope.activeTree = undefined;
+      $rootScope.activePerson = undefined;
+      $rootScope._people = undefined;
       $location.path('/');
     });
   };

@@ -11,7 +11,7 @@
 	<div class="col-lg-6">
 		<h5>Parents</h5>
 		<ul>
-			<li ng-repeat="p in activePerson.parent_ids" ng-click="selectPerson(p)">
+			<li ng-repeat="p in activePerson.parent_ids" ng-click="$parent.selectPerson(p)">
 				{{_people[p].birth_name}}
 			</li>
 		</ul>
@@ -19,7 +19,7 @@
 	
 		<h5>Children</h5>
 		<ul>
-			<li ng-repeat="p in activePerson.child_ids" ng-click="selectPerson(p)">
+			<li ng-repeat="p in activePerson.child_ids" ng-click="$parent.selectPerson(p)">
 				{{_people[p].birth_name}}
 			</li>
 		</ul>
@@ -27,12 +27,14 @@
 
 		<h5>Spouses</h5>
 		<ul>
-			<li ng-repeat="p in activePerson.spouse_ids" ng-click="selectPerson(p)">
+			<li ng-repeat="p in activePerson.spouse_ids" ng-click="$parent.selectPerson(p)">
 				{{_people[p].birth_name}}
 			</li>
 		</ul>
 		<button ng-click="addRelation({ create: 'spouse', root: activePerson })" class="btn btn-default">Add spouse</button>
 	</div>
+</div>
+<div class="row">
 	<div class="col-lg-12">
 		<h5>Sources:</h5>
 

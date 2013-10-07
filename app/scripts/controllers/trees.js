@@ -1,7 +1,7 @@
 'use strict';
 
 window.angular.module('ngl2.controllers.trees', [])
-	.controller('TreesCtrl', ['$scope', '$rootScope', '$routeParams','$location', 'Trees', 'Auth',
+	.controller('TreesCtrl', ['$scope', '$rootScope', '$routeParams', '$location', 'Trees', 'Auth',
 		function($scope, $rootScope, $routeParams, $location, Trees, Auth) {
 			if(!Auth.loggedIn()) {
 				$location.path('/');

@@ -1,7 +1,7 @@
 'use strict';
 
 window.angular.module('ngl2.directives.tree', [])
-	.directive('tree', ['Trees', function (Trees) {
+	.directive('tree', ['Trees', '$rootScope', function (Trees, $rootScope) {
 		return {
 			restrict: 'A',
 			scope: {
@@ -34,7 +34,7 @@ window.angular.module('ngl2.directives.tree', [])
 							// change x and y (for the left to right tree)
 							.projection(function(d) { return [d.y, d.x]; });
 			 
-				scope.$watch('person._id', function(newValue, oldValue) {
+				scope.$watch('person', function(newValue, oldValue) {
           if (newValue) {
             console.log("I see a data change!");
 
@@ -124,14 +124,6 @@ window.angular.module('ngl2.directives.tree', [])
 								return 'rotate(-45)translate(6,2)';
 							})
 			      	.text(function(d) { return d.birth_name; });
-
-
-
-
-
-
-
-
 
           }
         }, true);

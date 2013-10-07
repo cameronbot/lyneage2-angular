@@ -1,17 +1,13 @@
 'use strict';
 
 window.angular.module('ngl2.controllers.people', [])
-	.controller('PeopleCtrl', ['$scope', '$rootScope', '$routeParams','$location', '$http', '$filter', 'Auth', 'Trees', 'People',
-		function($scope, $rootScope, $routeParams, $location, $http, $filter, Auth, Trees, People) {
+	.controller('PeopleCtrl', ['$scope', '$rootScope', '$routeParams','$location', '$http', '$filter', '$route', 'Auth', 'Trees', 'People',
+		function($scope, $rootScope, $routeParams, $location, $http, $filter, $route, Auth, Trees, People) {
 
 			$rootScope._people = Trees.getPeople();
 			$rootScope.activePerson = {};
 
 			$scope.searchText = '';
-
-			$scope.showModal = function (options) {
-				console.log(options);
-			};
 
 			$scope.editForm = function (person) {
 				$location.path('trees/' + person.tree_id + '/people/' + person._id + '/edit');
@@ -42,6 +38,7 @@ window.angular.module('ngl2.controllers.people', [])
 				var i = 0, j = 0, $ = window.$,
 						root = options.root;
 
+				console.log('add relation');
 				$rootScope.activePerson = root;
 				$rootScope.action = options.create;
 				$rootScope.suggestedRelatives = {
@@ -51,7 +48,6 @@ window.angular.module('ngl2.controllers.people', [])
 					spouse: []
 				};
 
-				console.log('modal', options);
 				$('.modal').modal();
 
 				// TODO: suggestedRelatives should only return unique values
@@ -113,12 +109,11 @@ window.angular.module('ngl2.controllers.people', [])
 
 				params.person[inversePluralize($rootScope.action)] = [$scope.relation];
 
-				console.log(params);
-				
 				new People(params).$update(function (response) {
-					//$location.path('trees/' + $routeParams.treeId);
 					$('.modal').modal('hide');
 					$rootScope._people = Trees.updatePeople(response.people);
+					
+					$rootScope.activePerson = response.people[0];
 				});
 			};
 
@@ -126,14 +121,10 @@ window.angular.module('ngl2.controllers.people', [])
 				var $ = window.$,
 						activePersonId = $rootScope.activePerson._id;
 
-				console.log('activePerson', $rootScope.activePerson);
-
 				var params = {
 					treeId: $routeParams.treeId,
 					person: $scope.newPerson
 				};
-
-				console.log('action', $rootScope.action);
 
 				if ($rootScope.action) {
 					params.person.children = [];
@@ -172,6 +163,11 @@ window.angular.module('ngl2.controllers.people', [])
 				new People(params).$save(function (response) {
 					$('.modal').modal('hide');
 					$rootScope._people = Trees.updatePeople(response.people);
+					console.log('we are here');
+					// TODO: instead of redirecting to new person, just refresh this view
+					// for some reason the graph is not getting updated with this:
+					$rootScope.activePerson = Trees.getPerson($rootScope.activePerson._id);
+					//$rootScope.activePerson = response.people[0];
 				});
 			};
 
@@ -183,16 +179,17 @@ window.angular.module('ngl2.controllers.people', [])
 
 				new People(params).$delete(function (response) {
 					// WARNING: when this is pulled into the same view, routeParams will not be available
-					//$rootScope._people = Trees.deletePerson(response.id);
-					$rootScope._people = Trees.updatePeople(response.people, response.person)
+					$rootScope._people = Trees.updatePeople(response.people, response.person);
 					$location.path('trees/' + $routeParams.treeId);
 				});
 			};
 
 			$scope.selectPerson = function (id) {
 				$rootScope.activePerson = $rootScope._people[id];
+				
 				console.log($rootScope.activePerson);
-			}
+			};
+
 			function inversePluralize (option) {
 				switch (option) {
 				case 'child':

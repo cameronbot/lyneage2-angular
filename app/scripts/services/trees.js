@@ -1,7 +1,7 @@
 'use strict';
 
 window.angular.module('ngl2.services.trees', [])
-	.factory('Trees', ['$resource', '$rootScope', '$location', 'Auth', function ($resource, $rootScope, $location, Auth) {
+	.factory('Trees', ['$resource', '$rootScope', '$location', 'Global', 'Auth', function ($resource, $rootScope, $location, Global, Auth) {
 		var _ = window._;
 		
 		var currentTree;
@@ -68,11 +68,9 @@ window.angular.module('ngl2.services.trees', [])
 				$rootScope._peopleIndex = buildIndex();
 				return people;
 			},
-			resource: $resource('http://localhost:port/api/v1/trees/:treeId',
+			resource: $resource(Global.API_ROOT + '/trees/:treeId',
 			{
-				'port': ':3000',
-				'auth_token': Auth.token(),
-			  //'treeId': '@_id'
+				'auth_token': Auth.token()
 			},
 			{
 				update: { method: 'PUT'},

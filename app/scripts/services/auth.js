@@ -1,7 +1,7 @@
 'use strict';
 
 window.angular.module('ngl2.services.auth', ['ngCookies'])
-	.factory('Auth', ['$http', '$cookieStore', 'Global', function ($http, $cookieStore, Global) {
+	.factory('Auth', ['$http', '$cookieStore', 'API_ROOT', function ($http, $cookieStore, API_ROOT) {
 		var AuthService = {};
 
 		AuthService.user = $cookieStore.get('user') || {};
@@ -17,7 +17,7 @@ window.angular.module('ngl2.services.auth', ['ngCookies'])
 		AuthService.login = function (email, pass, remember, callback) {
 			$http({
 				method: 'POST',
-				url: Global.API_ROOT + '/users/sign_in',
+				url: API_ROOT + '/users/sign_in',
 				data: {
 					email: email,
 					password: pass,
@@ -32,7 +32,7 @@ window.angular.module('ngl2.services.auth', ['ngCookies'])
 		AuthService.register = function (email, pass, passConfirm, callback) {
 			$http({
 				method: 'POST',
-				url: Global.API_ROOT + '/users',
+				url: API_ROOT + '/users',
 				data: {
 					user: {
 						email: email,
@@ -49,7 +49,7 @@ window.angular.module('ngl2.services.auth', ['ngCookies'])
 		AuthService.logout = function (callback) {
 			$http({
 				method: 'DELETE',
-				url: Global.API_ROOT + '/users/sign_out?auth_token=' + AuthService.token()
+				url: API_ROOT + '/users/sign_out?auth_token=' + AuthService.token()
 			})
 			.success(function() {
 				AuthService.user = {};

@@ -1,4 +1,7 @@
-html { height: 100%; }
+html {
+  height: 100%;
+}
+
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #333;
@@ -15,49 +18,78 @@ body.modal-open {
   margin-left: 12px;
 }
 
+#wrapper {
+  height: 100%;
+}
+
 #interface {
   position: absolute;
-  top: 55px;
+  top: 0;
   left: 0;
+  width: 100%;
   height: 100%;
-  padding: 0;
+  padding-top: 50px;
 }
 
 #col-main {
   height: 100%;
+  overflow: auto;
 }
 
 #col-filter {
   background: #fafafa;
   border-right: 1px solid #ccc;
   height: 100%;
-  overflow: none;
 }
 
 #col-filter .search-wrap {
   padding: 10px 0;
+  background: #fafafa;
   border-bottom: 1px solid #ccc;
+  z-index: 1;
+  position: relative;
 }
 
 #col-filter ul {
+  position: absolute;
+  top: 55px;
+  bottom: 0;
+  left: 0;
+
   list-style: none;
-  height: 100%;
+  width: 100%;
+
   overflow: auto;
-  padding: 0 0 55px 0;
+  margin: 0;
+  padding: 0 15px 0;
 }
 
 #col-filter li {
   border-bottom: 1px solid #ccc;
+  cursor: pointer;
 }
 
-#col-canvas, #col-data {
+#col-filter li:last-child {
+  border-bottom: 0;
+}
+
+#col-filter li:hover {
+  background-color: #ededed;
+}
+
+/*#col-canvas,
+#col-data {
   height: 50%;
   overflow: auto;
 }
-
+*/
 #col-data {
   border-top: 1px solid #ccc;
   padding-top: 15px;
+}
+
+#col-data li {
+  cursor: pointer;
 }
 
 #col-intro {
@@ -80,11 +112,16 @@ body.modal-open {
   background-position: 50% 50%;
 }
 
-.modal-header, .modal-footer {
+.modal-header,
+.modal-footer {
   background-color: #fff;
   border-radius: inherit;
 }
 
+.modal-form select {
+  width: 50%;
+  display: inline;
+}
 .panel-instruct {
   text-align: center;
   margin-top: 100px;
@@ -107,6 +144,7 @@ g {
 .m circle {
   stroke: steelblue;
 }
+
 .f circle {
   stroke: #c66;
 }
@@ -128,4 +166,16 @@ g {
   bottom: 0;
   right: 12px;
   font-size: 12px;
+}
+
+/* header */
+.tree-name {
+  position: absolute;
+  top: 0;
+  left: 40%;
+  width: 20%;
+  font-size: 24px;
+  line-height: 200%;
+  color: #fafafa;
+  text-align: center;
 }

@@ -7,8 +7,11 @@
 		</div>
 		<div class="panel-instruct" class="col-sm-9" ng-hide="activePerson._id">
 			<h2>Choose a person from the list</h2>
-			<p>or...</p>
-			<p><button class="btn btn-warn" ng-click="addPerson()">Add a new person</button></p>
+			<p ng-hide="_peopleIndex.length">
+				or...
+				<br><br>
+				<button class="btn btn-warn" ng-click="addPerson()">Add a new person</button>
+			</p>
 		</div>
 		
 		<div class="modal fade">
@@ -26,18 +29,18 @@
 						  <div class="form-group">
 						    <label for="relative" class="col-sm-3 control-label">Select {{action}}</label>
 						    <div class="col-sm-9">
-						      <select ng-model="relation" name="relative" ng-options="r._id as r.birth_name for r in suggestedRelatives.existing">
+						      <select class="form-control" ng-model="relation" name="relative" ng-options="r._id as r.birth_name for r in suggestedRelatives.existing">
 						      </select>
 						    </div>
 						  </div>
 						  <div class="form-group">
 						    <div class="col-sm-offset-3 col-sm-9">
-						      <button type="submit" class="btn btn-default">Add {{action}}</button>
+						      <button type="submit" class="btn btn-primary">Add {{action}}</button>
 						    </div>
 						  </div>
 						</form>
 					</div>
-					<div class="modal-body">
+					<div class="modal-body modal-form">
 						<h4>Add a new person</h4>	
 
 						<form class="form-horizontal" role="form" ng-submit="create()">
@@ -49,7 +52,7 @@
 						  </div>
 						  <div class="form-group">
 						    <label for="gender" class="col-sm-3 control-label">Gender</label>
-						    <div class="col-lg-9">
+						    <div class="col-sm-9">
 						      <label class="radio-inline">
 						        <input type="radio" name="gender" ng-model="person.gender" value="1"> Male
 						      </label>
@@ -58,15 +61,15 @@
 						      </label>
 						    </div>
 						  </div>
-						  <div class="form-group" ng-show="action == 'child'">
+						  <div class="form-group" ng-show="action == 'child' && suggestedRelatives[action].length">
 						    <label for="parents" class="col-sm-3 control-label">Parents</label>
 						    <div class="col-sm-9">
 						      {{activePerson.birth_name}} and
-						      <select ng-model="additionalRelation" name="relative" ng-options="r._id as r.birth_name for r in suggestedRelatives[action]">
+						      <select class="form-control" ng-model="additionalRelation" name="relative" ng-options="r._id as r.birth_name for r in suggestedRelatives[action]">
 						      </select>
 						    </div>
 						  </div>
-						  <div class="form-group" ng-show="action == 'spouse'">
+						  <div class="form-group" ng-show="action == 'spouse' && suggestedRelatives[action].length">
 						    <label for="parents" class="col-sm-3 control-label">Children</label>
 						    <div class="col-sm-9">
 						    	<label ng-repeat="r in suggestedRelatives[action]">
@@ -74,10 +77,10 @@
 						    	</label>
 						    </div>
 						  </div>
-						  <div class="form-group" ng-show="action == 'parent'">
+						  <div class="form-group" ng-show="action == 'parent' && suggestedRelatives[action].length">
 						    <label for="parents" class="col-sm-3 control-label">Spouse?</label>
 						    <div class="col-sm-9">
-						      <select ng-model="additionalRelation" name="relative" ng-options="r._id as r.birth_name for r in suggestedRelatives[action]">
+						      <select class="form-control" ng-model="additionalRelation" name="relative" ng-options="r._id as r.birth_name for r in suggestedRelatives[action]">
 						      </select>
 						    </div>
 						  </div>
@@ -115,7 +118,7 @@
 						  
 						  <div class="form-group">
 						    <div class="col-sm-offset-3 col-sm-9">
-						      <button type="submit" class="btn btn-default">Create person</button>
+						      <button type="submit" class="btn btn-primary">Create person</button>
 						    </div>
 						  </div>
 						</form>

@@ -43,6 +43,8 @@ window.angular.module('ngl2.controllers.people', [])
 						root = options.root;
 
 				console.log('add relation');
+				$scope.person = {};
+				$scope.person.living = true;
 				$rootScope.activePerson = root;
 				$rootScope.action = options.create;
 				$rootScope.suggestedRelatives = {
@@ -127,7 +129,7 @@ window.angular.module('ngl2.controllers.people', [])
 
 				var params = {
 					treeId: $routeParams.treeId,
-					person: $scope.newPerson
+					person: $scope.person
 				};
 
 				if ($rootScope.action) {

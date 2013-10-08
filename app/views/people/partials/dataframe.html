@@ -2,13 +2,13 @@
 <h4>{{activePerson.birth_name}}</h4>
 
 <div class="row">
-	<div class="col-lg-6">
+	<div class="col-sm-6">
 		{{activePerson.dob}} - {{activePerson.dod}}
 
 		<h5>Bio</h5>
 		<p><em>No bio added</em></p>
 	</div>
-	<div class="col-lg-6">
+	<div class="col-sm-6">
 		<h5>Parents</h5>
 		<ul>
 			<li ng-repeat="p in activePerson.parent_ids" ng-click="$parent.selectPerson(p)">
@@ -35,7 +35,7 @@
 	</div>
 </div>
 <div class="row">
-	<div class="col-lg-12">
+	<div class="col-sm-12">
 		<h5>Sources:</h5>
 
 		<p><em>No sources added</em></p>

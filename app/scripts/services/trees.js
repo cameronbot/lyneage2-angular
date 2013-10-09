@@ -22,8 +22,16 @@ window.angular.module('ngl2.services.trees', [])
 				temp = {
 					_id: person._id,
 					birth_name: person.birth_name,
-					dob: person.dob,
-					dod: person.dod
+					dob: {
+						m: person.dob_m,
+						d: person.dob_d,
+						y: person.dob_y
+					},
+					dod: {
+						m: person.dod_m,
+						d: person.dod_d,
+						y: person.dod_y
+					}
 				};
 
 				index.push(temp);

@@ -2,9 +2,21 @@
 		<input type="text" class="form-control search-query" placeholder="Search for people" ng-model="searchText" />
 </div>
 <ul>
-	<li ng-repeat="person in _peopleIndex | filter:{ birth_name: searchText }" ng-click="selectPerson(person._id)">
+	<li ng-repeat="person in _peopleIndex | orderBy:'dob_d' | filter:{ birth_name: searchText }" ng-click="selectPerson(person._id)">
 		<strong title="{{person._id}}">{{person.birth_name}}</strong>
-		<br>
-		<span>{{person.dob}} - {{person.dob}}</span>
+		<div>
+			{{person.dob.m}}
+			<span ng-show="person.dob.m">/</span>
+			{{person.dob.d}}
+			<span ng-show="person.dob.d">/</span>
+			{{person.dob.y}}
+			<span ng-show="person.dod.y"> - </span>
+			{{person.dod.m}}
+			<span ng-show="person.dod.m">/</span>
+			{{person.dod.d}}
+			<span ng-show="person.dod.d">/</span>
+			{{person.dod.y}}
+			&nbsp;
+		</div>
 	</li>
 </ul>

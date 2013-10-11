@@ -1,5 +1,5 @@
 <div class="search-wrap">
-		<input type="text" class="form-control search-query" placeholder="Search for people" ng-model="searchText" />
+		<input type="text" class="form-control search-query" placeholder="Search {{activeTree.person_count}} people" ng-model="searchText" />
 </div>
 <ul>
 	<li ng-repeat="person in _peopleIndex | filter:{ birth_name: searchText } | orderBy:'dob.y'" ng-click="selectPerson(person._id)">

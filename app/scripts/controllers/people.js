@@ -4,9 +4,6 @@ window.angular.module('ngl2.controllers.people', [])
 	.controller('PeopleCtrl', ['$scope', '$rootScope', '$routeParams','$location', '$http', '$filter', '$route', 'Auth', 'Trees', 'People',
 		function($scope, $rootScope, $routeParams, $location, $http, $filter, $route, Auth, Trees, People) {
 
-			// $rootScope._people = Trees.getPeople();
-			$rootScope.activePerson = {};
-
 			$scope.searchText = '';
 
 			$scope.editForm = function (person) {
@@ -163,11 +160,11 @@ window.angular.module('ngl2.controllers.people', [])
 
 				$rootScope.action = undefined;
 				$scope.additionalRelation = undefined;
-				
+
 				new People(params).$save(function (response) {
 					$('.modal').modal('hide');
 					$rootScope._people = Trees.updatePeople(response.people);
-					
+					$rootScope.activeTree.person_count++;
 					$rootScope.activePerson = Trees.getPerson($rootScope.activePerson._id);
 					// bump this parameter to trigger directive redraw
 					$rootScope.activePerson.redraw = ($rootScope.activePerson.redraw || 0) + 1;
@@ -181,8 +178,12 @@ window.angular.module('ngl2.controllers.people', [])
 				};
 
 				new People(params).$delete(function (response) {
+					if ( $scope.person._id == $rootScope.activePerson._id ) {
+						$rootScope.activePerson = {};
+					}
 					// WARNING: when this is pulled into the same view, routeParams will not be available
 					$rootScope._people = Trees.updatePeople(response.people, response.person);
+					$rootScope.activeTree.person_count--;
 					$location.path('trees/' + $routeParams.treeId);
 				});
 			};

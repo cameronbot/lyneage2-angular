@@ -73,7 +73,6 @@ window.angular.module('ngl2.directives.tree', [])
 			      nodes = tree.nodes( Trees.descendancy( scope.root ));
 			      links = tree.links(nodes);
 			 
-			      //var link =
 			      vis.selectAll('pathlink')
 				      .data(links.filter(function(d) {
 								// links where target is in source.child list
@@ -83,7 +82,6 @@ window.angular.module('ngl2.directives.tree', [])
 				      .attr('class', 'link')
 				      .attr('d', diagonal);
 		 
-						//var spouseLink = 
 						vis.selectAll('pathlink')
 				      .data(links.filter(function(d) {
 								// links where target is in source.spouse list
@@ -99,15 +97,19 @@ window.angular.module('ngl2.directives.tree', [])
 						node.enter().append('svg:g')
 				      .attr('transform', function(d) { return 'translate(' + d.y + ',' + d.x + ')'; })
 				      .attr('class', function(d) {
-								if(d.gender === undefined) { return; }
-
 								var classes = '';
-								if(d.gender) {
-									classes += (d.gender === 1) ? 'm' : 'f';
-								}
+
+								classes += ( d._id === 'unknown' ) ? 'placeholder ' : '';
+								classes += ( typeof d.gender === 'number' ) ? (( d.gender === 1) ? 'm' : 'f') : '';
+
 								return classes;
 							})
 							.on('click', function (d, i) {
+								// skip action on placeholder entities
+								if (d._id === 'unknown') {
+									return;
+								}
+
 								scope.selectedId = d._id;
 
 								console.log(scope.selectedId, d._id, d.birth_name);

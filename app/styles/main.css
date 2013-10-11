@@ -151,6 +151,10 @@ g {
   cursor: pointer;
 }
 
+.placeholder {
+  cursor: default;
+}
+
 .m circle {
   stroke: steelblue;
 }

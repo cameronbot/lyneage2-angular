@@ -163,16 +163,13 @@ window.angular.module('ngl2.controllers.people', [])
 
 				$rootScope.action = undefined;
 				$scope.additionalRelation = undefined;
-				//$scope.newPerson = undefined;
-
+				
 				new People(params).$save(function (response) {
 					$('.modal').modal('hide');
 					$rootScope._people = Trees.updatePeople(response.people);
-					console.log('we are here');
-					// TODO: instead of redirecting to new person, just refresh this view
-					// for some reason the graph is not getting updated with this:
+					
 					$rootScope.activePerson = Trees.getPerson($rootScope.activePerson._id);
-					//$rootScope.activePerson = response.people[response.people.length-1];
+					// bump this parameter to trigger directive redraw
 					$rootScope.activePerson.redraw = ($rootScope.activePerson.redraw || 0) + 1;
 				});
 			};

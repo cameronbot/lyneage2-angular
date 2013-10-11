@@ -22,10 +22,11 @@ window.angular.module('ngl2.services.trees', [])
 			// configure api object property names
 			var spouseIds = 'spouse_ids';
 			var childIds = 'child_ids';
-			//var parentIds = 'parent_ids';
-
+			
 			var root = angular.copy(person),
 				id, spouse, children,
+				// children with only one parent in db will be lumped under the parent separately using _.without
+				childSet = [root.child_ids],
 				i = 0, j = 0;
 			
 			root.children = [];
@@ -39,7 +40,7 @@ window.angular.module('ngl2.services.trees', [])
 
 				// find children of spouse and person (intersection)
 				for ( j in spouse[childIds] ) {
-					id = spouse[childIds][j];
+					childSet.push(id = spouse[childIds][j]);
 
 					if ( root[childIds].indexOf( id ) > -1 ) {
 						// recurse here
@@ -48,10 +49,30 @@ window.angular.module('ngl2.services.trees', [])
 					}
 				}
 
-				if( children.length ) {
+				if ( children.length ) {
 					spouse.children = children;
 				}
 
+				root.spouses.push(spouse);
+			}
+
+			children = _.without.apply(this, childSet);
+			if ( children.length ) {
+				// build an unknown spouse object
+				spouse = {
+					_id: 'unknown',
+					birth_name: 'unknown',
+					gender: (root.gender == 1) ? 2 : 1,
+					spouse_ids: [root._id],
+					child_ids: children,
+					children: []
+				};
+				
+				for ( i in children ) {
+					id = children[i];
+					spouse.children.push( TreeService.descendancy( people[id] ));
+				}
+				root.spouse_ids.push('unknown');
 				root.spouses.push(spouse);
 			}
 

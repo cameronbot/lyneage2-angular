@@ -1,22 +1,25 @@
 'use strict';
 
 window.angular.module('ngl2.directives.tree', [])
-	.directive('tree', ['Trees', function (Trees) {
+	.directive('tree', ['Trees', '$rootScope', function (Trees, $rootScope) {
 		return {
 			restrict: 'A',
 			scope: {
 				person: '='
 			},
 			link: function (scope, elem, attrs) {
-				var d3 = window.d3,
-						nodeData = angular.copy(scope.person),
-						_people = Trees.getPeople();
+				scope.toggle = false;
+				
+				var d3 = window.d3;
+				var width = 800, height = 400;
 
-				var vis = d3.select(elem[0])
-				      .append('svg:g')
-				      .attr('transform', 'translate(20, 50)'); // shift everything to accomodate diagonal labels
+				var vis = d3.select(elem[0]).append('svg')
+					.attr('width', width)
+					.attr('height', height)
+						.append('g');
+				      //.attr('transform', 'translate(20, 120)'); // shift everything to accomodate diagonal labels
 				 
-		 		// Create a tree "canvas"
+				// Create a tree "canvas"
 	      var tree = d3.layout.tree()
 				      .children(function(d) {
 								//return d.spouses;
@@ -28,54 +31,29 @@ window.angular.module('ngl2.directives.tree', [])
 									return d.children;
 								}
 							})
-							.size([150,150]);
+							//.size([height*0.8,width*0.8]);
+							.nodeSize([20,80]);
 
 				var diagonal = d3.svg.diagonal()
 							// change x and y (for the left to right tree)
 							.projection(function(d) { return [d.y, d.x]; });
-			
-				var drawTree = function(newValue, oldValue) {
-					var i = 0, j = 0,
-							id, spouse, children;
 
+				var redraw = function(newValue, oldValue) {
+					console.log("REDRAW");
           if (newValue) {
-            // clear existint chart
+          	var node, nodes, links;
+
+            // clear existing chart
             vis.remove();
 
-            vis = d3.select(elem[0])
-				      .append('svg:g')
-				      // shift everything to accomodate diagonal labels
-				      .attr('transform', 'translate(20, 50)');
+            vis = d3.select('svg')
+								.append('g')
+					      // shift everything to accomodate diagonal labels
+					      .attr('transform', 'translate(20, 50)');
 				 
 						// build node list
-            nodeData = angular.copy(scope.person);
-						nodeData.children = [];
-						nodeData.spouses = [];
-
-						// loop over spouses
-						for (i in nodeData.spouse_ids) {
-							id = nodeData.spouse_ids[i];
-							spouse = angular.copy(_people[id]);
-							children = [];
-
-							// find children of spouse and person (intersection)
-							for (j in spouse.child_ids) {
-								id = spouse.child_ids[j];
-
-								if (nodeData.child_ids.indexOf(id) > -1) {
-									children.push(angular.copy(_people[id]));
-								}
-							}
-
-							if(children.length) {
-								spouse.children = children;
-							}
-
-							nodeData.spouses.push(spouse);
-						} // end spouse loop
-
-			      var nodes = tree.nodes(nodeData);
-			      var links = tree.links(nodes);
+			      nodes = tree.nodes( Trees.descendancy( scope.person ));
+			      links = tree.links(nodes);
 			 
 			      //var link =
 			      vis.selectAll('pathlink')
@@ -98,9 +76,9 @@ window.angular.module('ngl2.directives.tree', [])
 				      .attr('stroke-dasharray', '4,4')
 				      .attr('d', diagonal);
 		 
-			      var node = vis.selectAll('g.node')
-				      .data(nodes)
-				      .enter().append('svg:g')
+			      node = vis.selectAll('g.node').data(nodes);
+				
+						node.enter().append('svg:g')
 				      .attr('transform', function(d) { return 'translate(' + d.y + ',' + d.x + ')'; })
 				      .attr('class', function(d) {
 								if(d.gender === undefined) { return; }
@@ -110,9 +88,17 @@ window.angular.module('ngl2.directives.tree', [])
 									classes += (d.gender === 1) ? 'm' : 'f';
 								}
 								return classes;
+							})
+							.on('click', function (d, i) {
+								scope.clickedPersonId = d._id;
+								console.log(scope.clickedPersonId, d._id, d.birth_name);
+								var controls = $('.controls');
+								var coords = d3.mouse(d3.select('#col-canvas')[0][0]);
+
+								controls.show().css({ 'left': coords[0], 'top': coords[1] });
 							});
-				
-			      node.append('svg:circle').attr('r', 3.5);
+					
+						node.append('svg:circle').attr('r', 3.5);
 			 
 			      node.append('svg:text')
 							.text(function(d) { return d.birth_name; })
@@ -121,10 +107,14 @@ window.angular.module('ngl2.directives.tree', [])
 								return 'rotate(-45)translate(6,2)';
 							});
 
+						var g = d3.select('g'); // gbb = g[0][0].getBBox();
+						g.attr('transform', 'translate(20, ' + height/2 + ')');
+
           }
         };
 
-				scope.$watch('person', drawTree, true);
+        //scope.$watch('Trees.redraw', redraw, true);
+				scope.$watch('person', redraw, true);
 			}
 		};
 	}]);

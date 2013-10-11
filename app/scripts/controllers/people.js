@@ -40,12 +40,13 @@ window.angular.module('ngl2.controllers.people', [])
 
 			$scope.addRelation = function (options) {
 				var i = 0, j = 0, $ = window.$,
-						root = options.root;
-
+						root = (typeof options.root === 'string') ? $rootScope._people[options.root] : options.root;
+						console.log(typeof options.root);
 				console.log('add relation');
+				$scope.root = root;
 				$scope.person = {};
 				$scope.person.living = true;
-				$rootScope.activePerson = root;
+				//$rootScope.activePerson = root;
 				$rootScope.action = options.create;
 				$rootScope.suggestedRelatives = {
 					existing: [],
@@ -125,7 +126,7 @@ window.angular.module('ngl2.controllers.people', [])
 
 			$scope.create = function () {
 				var $ = window.$,
-						activePersonId = $rootScope.activePerson._id;
+						rootId = ($scope.root) ? $scope.root._id : $rootScope.activePerson._id;
 
 				var params = {
 					treeId: $routeParams.treeId,
@@ -139,19 +140,19 @@ window.angular.module('ngl2.controllers.people', [])
 
 					switch ($rootScope.action) {
 					case 'child':
-						params.person.parents = [activePersonId];
+						params.person.parents = [rootId];
 						if ($scope.additionalRelation) {
 							params.person.parents.push($scope.additionalRelation);
 						}
 						break;
 					case 'parent':
-						params.person.children = [activePersonId];
+						params.person.children = [rootId];
 						if ($scope.additionalRelation) {
 							params.person.spouses.push($scope.additionalRelation);
 						}
 						break;
 					case 'spouse':
-						params.person.spouses = [activePersonId];
+						params.person.spouses = [rootId];
 						params.person.children = $filter('filter')($scope.suggestedRelatives.spouse, { checked: true }).map(function (person) {
 							return person._id;
 						});
@@ -160,10 +161,9 @@ window.angular.module('ngl2.controllers.people', [])
 					}
 				}
 
-				//$rootScope.currentPerson = undefined;
 				$rootScope.action = undefined;
 				$scope.additionalRelation = undefined;
-				$scope.newPerson = undefined;
+				//$scope.newPerson = undefined;
 
 				new People(params).$save(function (response) {
 					$('.modal').modal('hide');
@@ -171,8 +171,9 @@ window.angular.module('ngl2.controllers.people', [])
 					console.log('we are here');
 					// TODO: instead of redirecting to new person, just refresh this view
 					// for some reason the graph is not getting updated with this:
-					$rootScope.activePerson = Trees.getPerson($rootScope.activePerson._id);
-					//$rootScope.activePerson = response.people[0];
+					//$rootScope.activePerson = Trees.getPerson($rootScope.activePerson._id);
+					//$rootScope.activePerson = response.people[response.people.length-1];
+					$rootScope.activePerson.redraw = ($rootScope.activePerson.redraw || 0) + 1;
 				});
 			};
 
@@ -191,8 +192,12 @@ window.angular.module('ngl2.controllers.people', [])
 
 			$scope.selectPerson = function (id) {
 				$rootScope.activePerson = $rootScope._people[id];
-				
-				console.log($rootScope.activePerson);
+			};
+
+			$scope.setRoot = function (person) {
+				var id = (typeof person === 'object') ? person._id : person;
+
+				$rootScope.activePerson = $rootScope._people[id];
 			};
 
 			function inversePluralize (option) {

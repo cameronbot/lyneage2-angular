@@ -7,7 +7,7 @@ window.angular.module('ngl2.controllers.trees', [])
 				$location.path('/');
 				return;
 			}
-
+ 
 			$rootScope._people = Trees.getPeople();
 
 			$scope.create = function () {

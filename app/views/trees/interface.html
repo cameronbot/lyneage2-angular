@@ -19,7 +19,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h3 ng-show="action" class="modal-title">Link a {{action}} to {{activePerson.birth_name}}</h3>
+						<h3 ng-show="action" class="modal-title">Link a {{action}} to {{root.birth_name}}</h3>
 						<h3 ng-hide="action" class="modal-title">Let's get started</h3>
 					</div>
 					<div class="modal-body" ng-show="suggestedRelatives.length > 0">
@@ -44,6 +44,7 @@
 						<h4>Add a new person</h4>	
 
 						<form class="form-horizontal" role="form" ng-submit="create()">
+							<input type="hidden" ng-model="root">
 						  <div class="form-group">
 						    <label for="birthname" class="col-sm-3 control-label">Birth name</label>
 						    <div class="col-sm-9">
@@ -64,7 +65,7 @@
 						  <div class="form-group" ng-show="action == 'child' && suggestedRelatives[action].length">
 						    <label for="parents" class="col-sm-3 control-label">Parents</label>
 						    <div class="col-sm-9">
-						      {{activePerson.birth_name}} and
+						      {{root.birth_name}} and
 						      <select class="form-control" ng-model="additionalRelation" name="relative" ng-options="r._id as r.birth_name for r in suggestedRelatives[action]">
 						      </select>
 						    </div>

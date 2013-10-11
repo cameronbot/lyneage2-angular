@@ -141,6 +141,10 @@ g {
   opacity: .5;
 }
 
+.m, .f {
+  cursor: pointer;
+}
+
 .m circle {
   stroke: steelblue;
 }

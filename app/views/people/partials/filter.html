@@ -4,19 +4,13 @@
 <ul>
 	<li ng-repeat="person in _peopleIndex | orderBy:'dob_d' | filter:{ birth_name: searchText }" ng-click="selectPerson(person._id)">
 		<strong title="{{person._id}}">{{person.birth_name}}</strong>
-		<div>
-			{{person.dob.m}}
-			<span ng-show="person.dob.m">/</span>
-			{{person.dob.d}}
-			<span ng-show="person.dob.d">/</span>
-			{{person.dob.y}}
-			<span ng-show="person.dod.y"> - </span>
-			{{person.dod.m}}
-			<span ng-show="person.dod.m">/</span>
-			{{person.dod.d}}
-			<span ng-show="person.dod.d">/</span>
-			{{person.dod.y}}
+		<span class="pull-right" ng-show="person.dod.y">
 			&nbsp;
-		</div>
+			<em>d.</em> {{person.dod.y}}
+		</span>
+		<span class="pull-right" ng-show="person.dob.y">
+			<em>b.</em> {{person.dob.y}}
+		</span>
+		
 	</li>
 </ul>

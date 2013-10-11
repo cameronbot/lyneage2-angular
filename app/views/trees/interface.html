@@ -2,7 +2,7 @@
 	<div id="interface" ng-controller="PeopleCtrl">
 		<div id="col-filter" class="col-sm-3" ng-include="'views/people/partials/filter.html'"></div>
 		<div id="col-main" class="col-sm-9" ng-show="activePerson._id">
-			<div id="col-canvas" class="col-sm-12" ng-include="'views/people/partials/canvas.html'"></div>
+			<div id="col-canvas" class="col-sm-12" tree root="activePerson" add="addRelation(options)" select="selectPerson(_id)"></div>
 			<div id="col-data" class="col-sm-12" ng-include="'views/people/partials/dataframe.html'"></div>
 		</div>
 		<div class="panel-instruct" class="col-sm-9" ng-hide="activePerson._id">

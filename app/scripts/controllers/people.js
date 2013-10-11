@@ -171,7 +171,7 @@ window.angular.module('ngl2.controllers.people', [])
 					console.log('we are here');
 					// TODO: instead of redirecting to new person, just refresh this view
 					// for some reason the graph is not getting updated with this:
-					//$rootScope.activePerson = Trees.getPerson($rootScope.activePerson._id);
+					$rootScope.activePerson = Trees.getPerson($rootScope.activePerson._id);
 					//$rootScope.activePerson = response.people[response.people.length-1];
 					$rootScope.activePerson.redraw = ($rootScope.activePerson.redraw || 0) + 1;
 				});

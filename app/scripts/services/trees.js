@@ -88,7 +88,6 @@ window.angular.module('ngl2.services.trees', [])
 		}
 
 		TreeService.currentTree = currentTree;
-		TreeService.redraw = 0;
 
 		TreeService.reset = function () {
 			currentTree = undefined;
@@ -115,8 +114,6 @@ window.angular.module('ngl2.services.trees', [])
 		TreeService.updatePeople = function (modified, deleted) {
 			var i = 0,
 					person;
-
-			TreeService.redraw++;
 
 			for (i in modified) {
 				person = modified[i];

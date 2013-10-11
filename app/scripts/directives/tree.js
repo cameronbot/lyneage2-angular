@@ -4,19 +4,37 @@ window.angular.module('ngl2.directives.tree', [])
 	.directive('tree', ['Trees', '$rootScope', function (Trees, $rootScope) {
 		return {
 			restrict: 'A',
+			transclude: true,
 			scope: {
-				person: '='
+				add: '&',
+				select: '&',
+				root: '='
 			},
+			template: '<svg class="sample"></svg>' +
+				'<div class="controls">' +
+					'<div class="btn-group" style="position: relative; left: -50%;">' +
+					  '<button ng-click="select({ _id: selectedId });hideControls()" type="button" class="btn btn-default"><i class="glyphicon glyphicon-user"></i></button>' +
+					  '<button ng-click="add({ options: { create: \'child\', root: selectedId }});hideControls()" type="button" class="btn btn-default"><i class="glyphicon glyphicon-link"></i> child</button>' +
+					  '<button ng-click="add({ options: { create: \'spouse\', root: selectedId }});hideControls()" type="button" class="btn btn-default"><i class="glyphicon glyphicon-link"></i> spouse</button>' +
+					  '<button type="button" class="btn btn-default" ng-click="hideControls()"><i class="glyphicon glyphicon-remove"></i></button>' +
+					'</div>' +
+				'</div>',
 			link: function (scope, elem, attrs) {
-				scope.toggle = false;
+				scope.hideControls = function() {
+					$('.controls').hide();
+				};
+
+				console.log(scope, elem, attrs);
+
 				
 				var d3 = window.d3;
 				var width = 800, height = 400;
 
-				var vis = d3.select(elem[0]).append('svg')
-					.attr('width', width)
-					.attr('height', height)
-						.append('g');
+				var vis = d3.select(elem[0]).append('svg');
+				// var vis = d3.select(elem[0]).append('svg')
+				// 	.attr('width', width)
+				// 	.attr('height', height)
+				// 		.append('g');
 				      //.attr('transform', 'translate(20, 120)'); // shift everything to accomodate diagonal labels
 				 
 				// Create a tree "canvas"
@@ -39,6 +57,7 @@ window.angular.module('ngl2.directives.tree', [])
 							.projection(function(d) { return [d.y, d.x]; });
 
 				var redraw = function(newValue, oldValue) {
+					console.log("REDRAW");
           if (newValue) {
           	var node, nodes, links;
 
@@ -51,7 +70,7 @@ window.angular.module('ngl2.directives.tree', [])
 					      .attr('transform', 'translate(20, 50)');
 				 
 						// build node list
-			      nodes = tree.nodes( Trees.descendancy( scope.person ));
+			      nodes = tree.nodes( Trees.descendancy( scope.root ));
 			      links = tree.links(nodes);
 			 
 			      //var link =
@@ -89,12 +108,12 @@ window.angular.module('ngl2.directives.tree', [])
 								return classes;
 							})
 							.on('click', function (d, i) {
-								scope.clickedPersonId = d._id;
-								console.log(scope.clickedPersonId, d._id, d.birth_name);
-								var controls = $('.controls');
-								var coords = d3.mouse(d3.select('#col-canvas')[0][0]);
+								scope.selectedId = d._id;
 
-								controls.show().css({ 'left': coords[0], 'top': coords[1] });
+								console.log(scope.selectedId, d._id, d.birth_name);
+
+								var coords = d3.mouse(d3.select('#col-canvas')[0][0]);
+								$('.controls').show().css({ 'left': coords[0], 'top': coords[1] });
 							});
 					
 						node.append('svg:circle').attr('r', 3.5);
@@ -112,8 +131,7 @@ window.angular.module('ngl2.directives.tree', [])
           }
         };
 
-        //scope.$watch('Trees.redraw', redraw, true);
-				scope.$watch('person', redraw, true);
+				scope.$watch('root', redraw, true);
 			}
 		};
 	}]);

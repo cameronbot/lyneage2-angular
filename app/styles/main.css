@@ -83,6 +83,12 @@ body.modal-open {
   overflow: auto;
 }
 */
+
+#col-canvas .controls {
+  position: absolute;
+  left: -999px;
+}
+
 #col-data {
   border-top: 1px solid #ccc;
   padding-top: 15px;

@@ -39,7 +39,6 @@ window.angular.module('ngl2.directives.tree', [])
 							.projection(function(d) { return [d.y, d.x]; });
 
 				var redraw = function(newValue, oldValue) {
-					console.log("REDRAW");
           if (newValue) {
           	var node, nodes, links;
 

@@ -3,7 +3,7 @@
 describe('Controller: MainCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('lyneage2AngularApp'));
+  beforeEach(module('ngl2'));
 
   var MainCtrl,
     scope;
@@ -15,6 +15,10 @@ describe('Controller: MainCtrl', function () {
       $scope: scope
     });
   }));
+
+  it('should be true', function () {
+    expect(true).toBe(true);
+  });
 
   it('should attach a list of awesomeThings to the scope', function () {
     expect(scope.awesomeThings.length).toBe(3);

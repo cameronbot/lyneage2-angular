@@ -7,9 +7,6 @@ window.angular.module('ngl2.controllers.account', ['ui.bootstrap'])
 
   $scope.logout = function () {
     Auth.logout(function () {
-      $rootScope.activeTree = undefined;
-      $rootScope.activePerson = undefined;
-      $rootScope._people = undefined;
       $location.path('/');
     });
   };

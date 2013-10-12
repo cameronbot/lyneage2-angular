@@ -1,7 +1,7 @@
 'use strict';
 
 window.angular.module('ngl2.services.auth', ['ngCookies'])
-	.factory('Auth', ['$http', '$cookieStore', 'API_ROOT', function ($http, $cookieStore, API_ROOT) {
+	.factory('Auth', ['$http', '$cookieStore', '$rootScope', 'API_ROOT', function ($http, $cookieStore, $rootScope, API_ROOT) {
 		var AuthService = {};
 
 		AuthService.user = $cookieStore.get('user') || {};
@@ -11,7 +11,7 @@ window.angular.module('ngl2.services.auth', ['ngCookies'])
 		};
 
 		AuthService.loggedIn = function () {
-			return AuthService.user && AuthService.user.token;
+			return !!( AuthService.user && AuthService.user.token );
 		};
 
 		AuthService.login = function (email, pass, remember, callback) {
@@ -54,7 +54,14 @@ window.angular.module('ngl2.services.auth', ['ngCookies'])
 			.success(function() {
 				AuthService.user = {};
 				$cookieStore.put('user', AuthService.user);
-				callback();
+				
+	      $rootScope.activeTree = undefined;
+	      $rootScope.activePerson = undefined;
+	      $rootScope._people = undefined;
+	      
+	      if ( callback ) {
+					callback();
+	      }
 			});
 		};
 

@@ -51,7 +51,7 @@ window.angular.module('ngl2.directives.tree', [])
 							})
 							//.size([height*0.8,width*0.8]);
 							//.nodeSize([20,80])
-							.size([180, radius*2])
+							.size([160, radius*2])
 							.separation(function(a, b) { return (a.parent == b.parent ? 1 : 2) / a.depth; });
 
 				// var diagonal = d3.svg.diagonal()

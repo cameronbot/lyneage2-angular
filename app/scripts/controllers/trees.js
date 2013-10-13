@@ -7,7 +7,7 @@ window.angular.module('ngl2.controllers.trees', [])
 				$location.path('/');
 				return;
 			}
- 
+
 			$rootScope._people = Trees.getPeople();
 
 			$scope.create = function () {
@@ -35,7 +35,6 @@ window.angular.module('ngl2.controllers.trees', [])
 				Trees.resource.get({ treeId: $routeParams.treeId, auth_token: Auth.token() }, function (response) {
 					$rootScope.activeTree = response.tree;
 					$rootScope._people = Trees.updatePeople(response.people);
-					//$rootScope._peopleIndex = Trees.buildIndex();
 				});
 			};
 

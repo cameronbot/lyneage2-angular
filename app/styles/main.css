@@ -54,14 +54,13 @@ body.modal-open {
   z-index: 1;
   position: relative;
 }
-#col-filter:hover .search-wrap {
-  /*border-bottom-color: #ccc;*/
-}
+
 #col-filter:hover ul {
   opacity: 1;
   height: auto;
   max-height: 400px;
 }
+
 #col-filter ul {
   -webkit-transition: all 0.2s ease-in;
   -moz-transition: all 0.2s ease-in;
@@ -70,11 +69,7 @@ body.modal-open {
   transition: all 0.2s ease-in;
   opacity: 0;
   height: 0;
-  /*position: absolute;
-  top: 55px;
-  bottom: 0;
-  left: 0;
-*/
+
   list-style: none;
   width: 100%;
 
@@ -84,8 +79,13 @@ body.modal-open {
 }
 
 #col-filter li {
+  padding: 2px 0 2px;
   border-bottom: 1px solid #ccc;
   cursor: pointer;
+}
+
+#col-filter li strong {
+  display: block;
 }
 
 #col-filter li:last-child {
@@ -96,12 +96,10 @@ body.modal-open {
   background-color: #ededed;
 }
 
-/*#col-canvas,
-#col-data {
-  height: 50%;
-  overflow: auto;
+#col-filter li span {
+  font-size: 11px;
+  color: #888;
 }
-*/
 
 #col-canvas .controls {
   position: absolute;

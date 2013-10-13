@@ -130,8 +130,12 @@ body.modal-open {
   margin-top: 140px;
 }
 
+.modal-dialog {
+  width: 720px;
+}
+
 .modal-content {
-  background-image: url(/images/tree_example.jpg);
+  /*background-image: url(/images/tree_example.jpg);*/
   background-position: 50% 50%;
 }
 

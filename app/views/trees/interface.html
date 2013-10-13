@@ -46,14 +46,14 @@
 						<form class="form-horizontal" role="form" ng-submit="create()">
 							<input type="hidden" ng-model="root">
 						  <div class="form-group">
-						    <label for="birthname" class="col-sm-3 control-label">Birth name</label>
-						    <div class="col-sm-9">
+						    <label for="birthname" class="col-sm-2 control-label">Birth name</label>
+						    <div class="col-sm-10">
 						      <input ng-model="person.birth_name" type="text" class="form-control" id="birthname" placeholder="Birth name">
 						    </div>
 						  </div>
 						  <div class="form-group">
-						    <label for="gender" class="col-sm-3 control-label">Gender</label>
-						    <div class="col-sm-9">
+						    <label for="gender" class="col-sm-2 control-label">Gender</label>
+						    <div class="col-sm-10">
 						      <label class="radio-inline">
 						        <input type="radio" name="gender" ng-model="person.gender" value="1"> Male
 						      </label>
@@ -63,58 +63,68 @@
 						    </div>
 						  </div>
 						  <div class="form-group" ng-show="action == 'child' && suggestedRelatives[action].length">
-						    <label for="parents" class="col-sm-3 control-label">Parents</label>
-						    <div class="col-sm-9">
+						    <label for="parents" class="col-sm-2 control-label">Parents</label>
+						    <div class="col-sm-10">
 						      {{root.birth_name}} and
 						      <select class="form-control" ng-model="additionalRelation" name="relative" ng-options="r._id as r.birth_name for r in suggestedRelatives[action]">
 						      </select>
 						    </div>
 						  </div>
 						  <div class="form-group" ng-show="action == 'spouse' && suggestedRelatives[action].length">
-						    <label for="parents" class="col-sm-3 control-label">Children</label>
-						    <div class="col-sm-9">
+						    <label for="parents" class="col-sm-2 control-label">Children</label>
+						    <div class="col-sm-10">
 						    	<label ng-repeat="r in suggestedRelatives[action]">
 										<input type="checkbox" name="suggestedRelatives[]" value="{{r._id}}" ng-checked="r.checked" ng-model="r.checked"> {{r.birth_name}}
 						    	</label>
 						    </div>
 						  </div>
 						  <div class="form-group" ng-show="action == 'parent' && suggestedRelatives[action].length">
-						    <label for="parents" class="col-sm-3 control-label">Spouse?</label>
-						    <div class="col-sm-9">
+						    <label for="parents" class="col-sm-2 control-label">Spouse?</label>
+						    <div class="col-sm-10">
 						      <select class="form-control" ng-model="additionalRelation" name="relative" ng-options="r._id as r.birth_name for r in suggestedRelatives[action]">
 						      </select>
 						    </div>
 						  </div>
 						  <div class="form-group">
-						    <label for="dob" class="col-sm-3 control-label">Date of birth</label>
-						    <div class="col-sm-9 row">
-						      <div class="col-xs-3">
-						        <input type="text" class="form-control" name="dob_m" ng-model="person.dob_m" placeholder="MM">
-						      </div>
-						      <div class="col-xs-3">
-						        <input type="text" class="form-control" name="dob_d" ng-model="person.dob_d" placeholder="DD">
-						      </div>
-						      <div class="col-xs-3">
-						        <input type="text" class="form-control" name="dob_y" ng-model="person.dob_y" placeholder="YYYY">
-						      </div>
+						    <label for="dob" class="col-sm-2 control-label">Birth</label>
+						    <div class="col-sm-5">
+						    	<div class="row">
+							      <div class="col-sm-4">
+							        <input type="text" class="form-control" name="dob_m" ng-model="person.dob_m" placeholder="MM">
+							      </div>
+							      <div class="col-sm-4">
+							        <input type="text" class="form-control" name="dob_d" ng-model="person.dob_d" placeholder="DD">
+							      </div>
+							      <div class="col-sm-4">
+							        <input type="text" class="form-control" name="dob_y" ng-model="person.dob_y" placeholder="YYYY">
+							      </div>
+							    </div>
+							  </div>
+						    <div class="col-sm-5">
+						      <input type="text" class="form-control" name="birth_location" ng-modal="person.birth_location" placeholder="Location">
 						    </div>
 						  </div>
 						  <div class="form-group">
-						    <label for="dob" class="col-sm-3 control-label">Date of death</label>
-						    <label class="radio-inline class-sm-9" ng-show="person.living">
+						    <label for="dob" class="col-sm-2 control-label">Death</label>
+						    <label class="radio-inline col-sm-10" ng-show="person.living">
 					        <input type="checkbox" name="living" ng-model="person.living" value="true"> Living
 					      </label>
-						    <div class="col-sm-9 row" ng-hide="person.living">
-						      <div class="col-xs-3">
-						        <input type="text" class="form-control" name="dod_m" ng-model="person.dod_m" placeholder="MM">
-						      </div>
-						      <div class="col-xs-3">
-						        <input type="text" class="form-control" name="dod_d" ng-model="person.dod_d" placeholder="DD">
-						      </div>
-						      <div class="col-xs-3">
-						        <input type="text" class="form-control" name="dod_y" ng-model="person.dod_y" placeholder="YYYY">
-						      </div>
-						    </div>
+						    <div class="col-sm-5" ng-hide="person.living">
+						    	<div class="row">
+							      <div class="col-sm-4">
+							        <input type="text" class="form-control" name="dod_m" ng-model="person.dod_m" placeholder="MM">
+							      </div>
+							      <div class="col-sm-4">
+							        <input type="text" class="form-control" name="dod_d" ng-model="person.dod_d" placeholder="DD">
+							      </div>
+							      <div class="col-sm-4">
+							        <input type="text" class="form-control" name="dod_y" ng-model="person.dod_y" placeholder="YYYY">
+							      </div>
+							    </div>
+							  </div>
+					      <div class="col-sm-5" ng-hide="person.living">
+					      	<input type="text" class="form-control" name="death_location" ng-modal="person.death_location" placeholder="Location">
+					      </div>
 						  </div>
 
 						  <div class="form-group">

@@ -38,30 +38,49 @@ body.modal-open {
 
 #col-filter {
   background: #fafafa;
-  border-right: 1px solid #ccc;
-  height: 100%;
+  border: 1px solid #ccc;
+  /*height: 100%;*/
+  position: absolute;
+  top: 60px;
+  left: 10px;
+  border-radius: 6px;
+  z-index: 1;
 }
 
 #col-filter .search-wrap {
   padding: 10px 0;
   background: #fafafa;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid transparent;
   z-index: 1;
   position: relative;
 }
-
+#col-filter:hover .search-wrap {
+  /*border-bottom-color: #ccc;*/
+}
+#col-filter:hover ul {
+  opacity: 1;
+  height: auto;
+  max-height: 400px;
+}
 #col-filter ul {
-  position: absolute;
+  -webkit-transition: all 0.2s ease-in;
+  -moz-transition: all 0.2s ease-in;
+  -o-transition: all 0.2s ease-in;
+  -ms-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+  opacity: 0;
+  height: 0;
+  /*position: absolute;
   top: 55px;
   bottom: 0;
   left: 0;
-
+*/
   list-style: none;
   width: 100%;
 
   overflow: auto;
   margin: 0;
-  padding: 0 15px 0;
+  padding: 0;
 }
 
 #col-filter li {

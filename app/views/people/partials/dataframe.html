@@ -3,10 +3,8 @@
 
 <div class="row">
 	<div class="col-sm-6">
-		{{activePerson.dob}} - {{activePerson.dod}}
-
 		<h5>Bio</h5>
-		<p><em>No bio added</em></p>
+		{{activePerson.notes}}
 	</div>
 	<div class="col-sm-6">
 		<h5>Parents</h5>
@@ -16,7 +14,7 @@
 			</li>
 		</ul>
 		<button ng-click="addRelation({ create: 'parent', root: activePerson })" ng-hide="activePerson.parent_ids.length >= 2" class="btn btn-default">Add parent</button>
-	
+
 		<h5>Children</h5>
 		<ul>
 			<li ng-repeat="p in activePerson.child_ids" ng-click="$parent.selectPerson(p)">
@@ -37,7 +35,6 @@
 <div class="row">
 	<div class="col-sm-12">
 		<h5>Sources:</h5>
-
-		<p><em>No sources added</em></p>
+		{{activePerson.sources}}
 	</div>
 </div>

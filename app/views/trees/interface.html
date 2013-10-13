@@ -1,7 +1,7 @@
 <div ng-controller="TreesCtrl" ng-init="findOne()">
 	<div id="interface" ng-controller="PeopleCtrl">
-		<div id="col-filter" class="col-sm-3" ng-include="'views/people/partials/filter.html'"></div>
-		<div id="col-main" class="col-sm-9" ng-show="activePerson._id">
+		<div id="col-filter" draggable="true" class="col-sm-3" ng-include="'views/people/partials/filter.html'"></div>
+		<div id="col-main" class="col-sm-12" ng-show="activePerson._id">
 			<div id="col-canvas" class="col-sm-12" tree root="activePerson" add="addRelation(options)" select="selectPerson(_id)"></div>
 			<div id="col-data" class="col-sm-12" ng-include="'views/people/partials/dataframe.html'"></div>
 		</div>
@@ -13,7 +13,7 @@
 				<button class="btn btn-warn" ng-click="addPerson()">Add a new person</button>
 			</p>
 		</div>
-		
+
 		<div class="modal fade">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -41,7 +41,7 @@
 						</form>
 					</div>
 					<div class="modal-body modal-form">
-						<h4>Add a new person</h4>	
+						<h4>Add a new person</h4>
 
 						<form class="form-horizontal" role="form" ng-submit="create()">
 							<input type="hidden" ng-model="root">
@@ -87,14 +87,14 @@
 						  </div>
 						  <div class="form-group">
 						    <label for="dob" class="col-sm-3 control-label">Date of birth</label>
-						    <div class="col-sm-6 row">
-						      <div class="col-xs-4">
+						    <div class="col-sm-9 row">
+						      <div class="col-xs-3">
 						        <input type="text" class="form-control" name="dob_m" ng-model="person.dob_m" placeholder="MM">
 						      </div>
-						      <div class="col-xs-4">
+						      <div class="col-xs-3">
 						        <input type="text" class="form-control" name="dob_d" ng-model="person.dob_d" placeholder="DD">
 						      </div>
-						      <div class="col-xs-4">
+						      <div class="col-xs-3">
 						        <input type="text" class="form-control" name="dob_y" ng-model="person.dob_y" placeholder="YYYY">
 						      </div>
 						    </div>
@@ -104,19 +104,31 @@
 						    <label class="radio-inline class-sm-9" ng-show="person.living">
 					        <input type="checkbox" name="living" ng-model="person.living" value="true"> Living
 					      </label>
-						    <div class="col-sm-6 row" ng-hide="person.living">
-						      <div class="col-xs-4">
+						    <div class="col-sm-9 row" ng-hide="person.living">
+						      <div class="col-xs-3">
 						        <input type="text" class="form-control" name="dod_m" ng-model="person.dod_m" placeholder="MM">
 						      </div>
-						      <div class="col-xs-4">
+						      <div class="col-xs-3">
 						        <input type="text" class="form-control" name="dod_d" ng-model="person.dod_d" placeholder="DD">
 						      </div>
-						      <div class="col-xs-4">
+						      <div class="col-xs-3">
 						        <input type="text" class="form-control" name="dod_y" ng-model="person.dod_y" placeholder="YYYY">
 						      </div>
 						    </div>
 						  </div>
-						  
+
+						  <div class="form-group">
+						  	<div class="col-xs-12">
+						  		<textarea ng-model="person.notes" class="form-control" id="notes" placeholder="Notes"></textarea>
+						  	</div>
+						  </div>
+
+							<div class="form-group">
+								<div class="col-xs-12">
+					      	<textarea ng-model="person.sources" class="form-control" id="notes" placeholder="Sources"></textarea>
+					      </div>
+						  </div>
+
 						  <div class="form-group">
 						    <div class="col-sm-offset-3 col-sm-9">
 						      <button type="submit" class="btn btn-primary">Create person</button>

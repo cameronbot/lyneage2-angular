@@ -12,7 +12,7 @@ window.angular.module('ngl2.controllers.people', [])
 
 			$scope.edit = function () {
 				$scope.person = Trees.getPerson($routeParams.personId);
-				
+
 				if($scope.person === undefined) {
 					$location.path('trees/' + $routeParams.treeId);
 				}
@@ -67,7 +67,7 @@ window.angular.module('ngl2.controllers.people', [])
 						var spouse = $rootScope._people[root.spouse_ids[i]];
 
 						for (j in spouse.child_ids) {
-							$rootScope.suggestedRelatives.existing.push($rootScope._people[spouse.child_ids[j]]);	
+							$rootScope.suggestedRelatives.existing.push($rootScope._people[spouse.child_ids[j]]);
 						}
 					}
 					break;
@@ -75,13 +75,13 @@ window.angular.module('ngl2.controllers.people', [])
 					$rootScope.suggestedRelatives.spouse = root.child_ids.map(function (id) {
 						return $rootScope._people[id];
 					});
-					
+
 					// create a pool of potential spouses from existing children's parents?
 					for (i in root.child_ids) {
 						var child = $rootScope._people[root.child_ids[i]];
 
 						for (j in child.parent_ids) {
-							$rootScope.suggestedRelatives.existing.push($rootScope._people[child.parent_ids[j]]);	
+							$rootScope.suggestedRelatives.existing.push($rootScope._people[child.parent_ids[j]]);
 						}
 					}
 					break;
@@ -101,6 +101,11 @@ window.angular.module('ngl2.controllers.people', [])
 					break;
 				}
 
+				if ( $rootScope.suggestedRelatives[$rootScope.action].length == 1 ) {
+					console.log('set default');
+					$scope.additionalRelation = $rootScope.suggestedRelatives[$rootScope.action][0]._id;
+				}
+
 				console.log('suggestedRelatives', $rootScope.suggestedRelatives);
 			};
 
@@ -116,7 +121,7 @@ window.angular.module('ngl2.controllers.people', [])
 				new People(params).$update(function (response) {
 					$('.modal').modal('hide');
 					$rootScope._people = Trees.updatePeople(response.people);
-					
+
 					$rootScope.activePerson = response.people[0];
 				});
 			};
@@ -153,7 +158,7 @@ window.angular.module('ngl2.controllers.people', [])
 						params.person.children = $filter('filter')($scope.suggestedRelatives.spouse, { checked: true }).map(function (person) {
 							return person._id;
 						});
-						
+
 						break;
 					}
 				}

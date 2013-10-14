@@ -203,6 +203,13 @@ window.angular.module('ngl2.controllers.people', [])
 				$rootScope.activePerson = $rootScope._people[id];
 			};
 
+			$scope.ageHelper = function() {
+				// assume person is dead if born before 1900
+				if ( $scope.person.dob_y && $scope.person.dob_y.length > 3 && $scope.person.dob_y < 1900 ) {
+					$scope.person.living = false;
+				}
+			};
+
 			function inversePluralize (option) {
 				switch (option) {
 				case 'child':

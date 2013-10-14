@@ -2,11 +2,20 @@
 
 window.angular.module('ngl2.controllers.account', ['ui.bootstrap'])
 .controller('AccountCtrl', ['$scope', '$rootScope', '$modal', '$location', '$route', '$log', 'Auth', function ($scope, $rootScope, $modal, $location, $route, $log, Auth) {
+  var authCallback = function (response) {
+    // TODO: flash messages on screen
+    if (response.errors) {
+      console.log('Flash: ', response.errors);
+    } else {
+      console.log('Flash: ', 'successfully logged in');
+      $location.path('trees');
+    }
+  };
 
   $scope.loggedIn = Auth.loggedIn;
 
   $scope.logout = function () {
-    Auth.logout(function () {
+    Auth.logout().then(function () {
       $location.path('/');
     });
   };
@@ -24,12 +33,7 @@ window.angular.module('ngl2.controllers.account', ['ui.bootstrap'])
     });
 
     modalInstance.result.then(function (credentials) {
-      console.log('submitted creds', credentials);
-
-      Auth.login(credentials.email, credentials.password, credentials.remember, function() {
-        console.log('switch to trees', Auth.token());
-        $location.path('trees');
-      });
+      Auth.login(credentials).then(authCallback);
     }, function () {
       $log.info('Modal dismissed at: ' + new Date());
     });
@@ -48,20 +52,16 @@ window.angular.module('ngl2.controllers.account', ['ui.bootstrap'])
     });
 
     modalInstance.result.then(function (credentials) {
-      console.log('submitted creds', credentials);
-
-      Auth.register(credentials.email, credentials.password, credentials.passwordConfirm, function() {
-        $location.path('trees');
-      });
+      Auth.register(credentials).then(authCallback);
     }, function () {
       $log.info('Modal dismissed at: ' + new Date());
     });
   };
 }])
 .controller('LoginInstanceCtrl', ['$scope', '$modalInstance', 'credentials', function ($scope, $modalInstance, credentials) {
-  
+
   $scope.credentials = credentials;
-  
+
   $scope.cancel = function () {
     $modalInstance.dismiss('cancel');
   };
@@ -71,7 +71,7 @@ window.angular.module('ngl2.controllers.account', ['ui.bootstrap'])
   };
 }])
 .controller('RegisterInstanceCtrl', ['$scope', '$modalInstance', 'credentials', function ($scope, $modalInstance, credentials) {
-  
+
   $scope.credentials = credentials;
 
   $scope.cancel = function () {

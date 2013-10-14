@@ -1,11 +1,11 @@
 'use strict';
 
 window.angular.module('ngl2.services.auth', ['ngCookies'])
-	.factory('Auth', ['$http', '$cookieStore', '$rootScope', 'API_ROOT', function ($http, $cookieStore, $rootScope, API_ROOT) {
+	.factory('Auth', ['$http', '$cookieStore', '$rootScope', 'HTTP_API_ROOT', function ($http, $cookieStore, $rootScope, HTTP_API_ROOT) {
 		var AuthService = {};
 
 		AuthService.user = $cookieStore.get('user') || {};
-		
+
 		AuthService.token = function () {
 			return AuthService.user.token;
 		};
@@ -14,64 +14,58 @@ window.angular.module('ngl2.services.auth', ['ngCookies'])
 			return !!( AuthService.user && AuthService.user.token );
 		};
 
-		AuthService.login = function (email, pass, remember, callback) {
-			$http({
+		AuthService.login = function (credentials) {
+			return $http({
 				method: 'POST',
-				url: API_ROOT + '/users/sign_in',
+				url: HTTP_API_ROOT + '/users/sign_in',
 				data: {
-					email: email,
-					password: pass,
-					'remember_me': remember
+					email: credentials.email,
+					password: credentials.password,
+					remember_me: credentials.remember
 				}
-			})
-			.success(function (data) {
-				successCallback.call(this, data, callback);
-			});
+			}).then(authSuccess, authError);
 		};
 
-		AuthService.register = function (email, pass, passConfirm, callback) {
+		AuthService.register = function (credentials) {
 			$http({
 				method: 'POST',
-				url: API_ROOT + '/users',
+				url: HTTP_API_ROOT + '/users',
 				data: {
 					user: {
-						email: email,
-						password: pass,
-						password_confirmation: passConfirm	
+						email: credentials.email,
+						password: credentials.password,
+						password_confirmation: credentials.passwordConfirm
 					}
 				}
-			})
-			.success(function (data) {
-				successCallback.call(this, data, callback);
-			});
+			}).then(authSuccess, authError);
 		};
 
 		AuthService.logout = function (callback) {
-			$http({
+			return $http({
 				method: 'DELETE',
-				url: API_ROOT + '/users/sign_out?auth_token=' + AuthService.token()
+				url: HTTP_API_ROOT + '/users/sign_out?auth_token=' + AuthService.token()
 			})
-			.success(function() {
+			.then(function (response) {
 				AuthService.user = {};
 				$cookieStore.put('user', AuthService.user);
-				
+
 	      $rootScope.activeTree = undefined;
 	      $rootScope.activePerson = undefined;
 	      $rootScope._people = undefined;
-	      
-	      if ( callback ) {
-					callback();
-	      }
 			});
 		};
 
-		var successCallback = function(data, callback) {
-			data.user.token = data.authentication_token;
-			AuthService.user = data.user;
+		var authSuccess = function (response) {
+			AuthService.user = response.data.user;
+			AuthService.user.token = response.data.authentication_token;
 
 			$cookieStore.put('user', AuthService.user);
 
-			if (callback) { callback(); }
+			return AuthService.user;
+		};
+
+		var authError = function (response) {
+			return response.data;
 		};
 
 		return AuthService;

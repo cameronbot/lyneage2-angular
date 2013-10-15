@@ -3,7 +3,7 @@
 window.angular.module('ngl2.services.trees', [])
 	.factory('Trees', ['$resource', '$rootScope', '$location', 'API_ROOT', 'Auth', function ($resource, $rootScope, $location, API_ROOT, Auth) {
 		var _ = window._;
-		
+
 		var currentTree;
 		var people = {};
 
@@ -16,19 +16,19 @@ window.angular.module('ngl2.services.trees', [])
 		/*
 			creates a descendancy tree for a given person formatted for consumption by d3
 			by walking through person's spouses and children as deeply as possible, building
-			a nested json tree in the process 
+			a nested json tree in the process
 		 */
 		TreeService.descendancy = function (person) {
 			// configure api object property names
 			var spouseIds = 'spouse_ids';
 			var childIds = 'child_ids';
-			
+
 			var root = angular.copy(person),
 				id, spouse, children,
 				// children with only one parent in db will be lumped under the parent separately using _.without
 				childSet = [root.child_ids],
 				i = 0, j = 0;
-			
+
 			root.children = [];
 			root.spouses = [];
 
@@ -67,7 +67,7 @@ window.angular.module('ngl2.services.trees', [])
 					child_ids: children,
 					children: []
 				};
-				
+
 				for ( i in children ) {
 					id = children[i];
 					spouse.children.push( TreeService.descendancy( people[id] ));
@@ -118,7 +118,7 @@ window.angular.module('ngl2.services.trees', [])
 		TreeService.getPeople = function () {
 			return people;
 		};
-			
+
 		TreeService.getPerson = function (id) {
 			return people[id];
 		};
@@ -156,7 +156,7 @@ window.angular.module('ngl2.services.trees', [])
 
 		TreeService.resource = $resource(API_ROOT + '/trees/:treeId',
 			{
-				'auth_token': Auth.token()
+				'auth_token': Auth.token() || ''
 			},
 			{
 				update: { method: 'PUT'},

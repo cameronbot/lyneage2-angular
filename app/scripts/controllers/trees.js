@@ -3,10 +3,10 @@
 window.angular.module('ngl2.controllers.trees', [])
 	.controller('TreesCtrl', ['$scope', '$rootScope', '$routeParams', '$location', 'Trees', 'Auth',
 		function($scope, $rootScope, $routeParams, $location, Trees, Auth) {
-			if(!Auth.loggedIn()) {
-				$location.path('/');
-				return;
-			}
+			// if(!Auth.loggedIn()) {
+			// 	$location.path('/');
+			// 	return;
+			// }
 
 			$rootScope._people = Trees.getPeople();
 
@@ -23,7 +23,7 @@ window.angular.module('ngl2.controllers.trees', [])
 		  };
 
 			$scope.find = function () {
-				Trees.resource.getData({ auth_token: Auth.token() } ,function(response) {
+				Trees.resource.getData(function (response) {
 					$scope.trees = response.trees;
 				});
 			};

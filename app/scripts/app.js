@@ -1,6 +1,6 @@
 'use strict';
 
-window.app = angular.module('ngl2', ['ngResource','ngCookies','ngl2.controllers','ngl2.services', 'ngl2.directives', 'ui.bootstrap'])
+window.app = angular.module('ngl2', ['ngResource','ngCookies','ngSanitize','ngl2.controllers','ngl2.services', 'ngl2.directives', 'ui.bootstrap'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {

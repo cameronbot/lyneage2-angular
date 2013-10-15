@@ -1,7 +1,7 @@
 'use strict';
 
 window.angular.module('ngl2.services.auth', ['ngCookies'])
-	.factory('Auth', ['$http', '$cookieStore', '$rootScope', 'HTTP_API_ROOT', function ($http, $cookieStore, $rootScope, HTTP_API_ROOT) {
+	.factory('Auth', ['$http', '$cookieStore', '$rootScope', '$sanitize', 'HTTP_API_ROOT', function ($http, $cookieStore, $rootScope, $sanitize, HTTP_API_ROOT) {
 		var AuthService = {};
 
 		AuthService.user = $cookieStore.get('user') || {};
@@ -18,11 +18,7 @@ window.angular.module('ngl2.services.auth', ['ngCookies'])
 			return $http({
 				method: 'POST',
 				url: HTTP_API_ROOT + '/users/sign_in',
-				data: {
-					email: credentials.email,
-					password: credentials.password,
-					remember_me: credentials.remember
-				}
+				data: sanitizeCredentials(credentials)
 			}).then(authSuccess, authError);
 		};
 
@@ -31,11 +27,7 @@ window.angular.module('ngl2.services.auth', ['ngCookies'])
 				method: 'POST',
 				url: HTTP_API_ROOT + '/users',
 				data: {
-					user: {
-						email: credentials.email,
-						password: credentials.password,
-						password_confirmation: credentials.passwordConfirm
-					}
+					user: sanitizeCredentials(credentials)
 				}
 			}).then(authSuccess, authError);
 		};
@@ -53,6 +45,25 @@ window.angular.module('ngl2.services.auth', ['ngCookies'])
 	      $rootScope.activePerson = undefined;
 	      $rootScope._people = undefined;
 			});
+		};
+
+		var sanitizeCredentials = function (credentials) {
+			var sanitized = {
+				email: $sanitize(credentials.email),
+				password: $sanitize(credentials.password)
+			};
+
+			// login only
+			if (credentials.remember) {
+				sanitized.remember = $sanitize(credentials.remember);
+			}
+
+			// registration only
+			if (credentials.passwordConfirm) {
+				sanitized.password_confirmation = $sanitize(credentials.passwordConfirm);
+			}
+
+			return sanitized;
 		};
 
 		var authSuccess = function (response) {
